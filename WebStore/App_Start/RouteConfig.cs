@@ -14,6 +14,12 @@ namespace WebStore
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "SeedImages",
+                url: "SeedImages",
+                defaults: new { controller = "Home", action = "SeedImages" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

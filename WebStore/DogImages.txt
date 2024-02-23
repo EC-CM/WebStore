@@ -1,0 +1,106 @@
+﻿@model IEnumerable<DisplayingImages.Models.Image>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Dogs</title>
+
+    <style>
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width" />
+
+</head>
+
+<body>
+
+    <h2>Dogs</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    <div class="container mt-3">
+        <div class="d-flex flex-wrap">
+
+            @foreach (var item in Model)
+            {
+                <div class="p-2 border">
+                    <div class="card" style="width: 18rem">
+
+                        <img src="@Url.Action("GetImage", "Home", new { id = item.ImageID, height=300})" alt="Image.ImageName" />
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">@Html.DisplayFor(m => item.ImageName)</h5>
+                            <p class="card-text">Cute dog</p>
+                            <a href="@Url.Action("Details", "Home", new { id = item.ImageID })" class="btn btn-primary">Go somewhere</a>
+
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                Image
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageName)
+                </td>
+                <td>
+                    <img src="@Url.Action("GetImage", "Home", new { id = item.ImageID, height=300})" alt="Image.ImageName" />
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ImageID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ImageID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ImageID })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</body>
+
+</html>
