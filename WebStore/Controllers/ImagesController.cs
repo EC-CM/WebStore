@@ -40,9 +40,8 @@ namespace WebStore.Controllers
         /// <summary>
         /// Retrieve an image from the database based on its ID and optionally resize.
         /// </summary>
-        public ActionResult GetImage(int? id = null, string image_name = "", int? height = null, int? width = null)
+        public ActionResult GetImage(int? id = null, string image_name = "", int? height = null, int? width = null, Image imported_image = null)
         {
-            Debug.WriteLine("GetImage was cal");
             Image image;
 
             if (id.HasValue || image_name != "")
@@ -55,6 +54,11 @@ namespace WebStore.Controllers
                 { // Either both id and image_name were provided or just id.
                     image = _db.Images.FirstOrDefault(i => i.ImageID == id);
                 }
+            }
+            else if (imported_image != null)
+            { // NOTE: Order matters here - when first, somehow an ID and Image are passed in and it errors?
+                Debug.WriteLine("Image passed in." + id);
+                image = imported_image;
             }
             else
             {
@@ -109,6 +113,23 @@ namespace WebStore.Controllers
                 return HttpNotFound();
             }
         }
+
+
+        public ActionResult GetUserProfileImage(int userID)
+        {
+            User user = _db.Users.FirstOrDefault(u => u.UserID == userID);
+            Image profileImage = _db.Images.FirstOrDefault(i => i.ImageID == user.ProfilePictureID);
+            //return File(profileImage.ImageData, "image/jpeg");
+
+            if (profileImage != null) 
+            {
+                Debug.WriteLine("Calling GetImage with Image");
+                return GetImage(imported_image: profileImage, height: 50); 
+            }
+            else { return Content("Profile image not found."); }
+        }
+
+
 
         // ---------------------------------------------------------------------------------------------------------------------------
         // Redundant

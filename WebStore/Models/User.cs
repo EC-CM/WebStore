@@ -22,13 +22,12 @@ namespace WebStore.Models
         //public string PhoneNumber { get; set; }
         //public string Address { get; set; }
 
-        public int? ProfilePictureID { get; set; }
+        public int? ProfilePictureID { get; set; }    // RENAME TO ProfileImage
         [ForeignKey("ProfilePictureID")]
         public Image ProfileImage { get; set; }
 
         public User() 
         {
-            UserID = 0;
             Username = "";
             EmailAddress = "";
             PasswordHash = "";

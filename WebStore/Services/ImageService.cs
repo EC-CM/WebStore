@@ -88,6 +88,12 @@ namespace WebStore.Services
                     _db.Images.AddRange(uniqueImages);
                     _db.SaveChanges();
                     Console.WriteLine($"[#] Images seeded successfully! {uniqueImages.Count} new images were added to the database.");
+
+                    // Print the names of each added image
+                    foreach (Image addedImage in uniqueImages)
+                    {
+                        Console.WriteLine($"    - {addedImage.ImageName}");
+                    }
                 }
                 else
                 {

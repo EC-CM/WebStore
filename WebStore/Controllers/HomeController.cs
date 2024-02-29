@@ -46,12 +46,12 @@ namespace WebStore.Controllers
 
         public ActionResult Index()
         {
-            //var images = _db.Images.ToList();
-            //return View("Index", images);
+            ViewModel models = new ViewModel
+            {
+                Categories = _db.Categories.ToList()
+            };
 
-            Debug.WriteLine($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images")}");
-
-            return View();
+            return View("Index", models);
         }
 
         public ActionResult About()

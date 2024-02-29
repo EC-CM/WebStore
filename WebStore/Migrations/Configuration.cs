@@ -38,8 +38,14 @@
                 new Category { Name = "Smartphones", Description = "Stay connected and empowered with our range of smartphones. Packed with innovative features and the latest technology, our smartphones offer seamless communication, stunning photography, and versatile functionality. Experience the convenience of a smart and connected lifestyle in the palm of your hand.", ImageID = 4 },
                 new Category { Name = "Headphones", Description = "Immerse yourself in a world of exceptional audio with our premium headphones. Whether you crave high-fidelity sound for music, need a reliable headset for calls, or seek immersive gaming audio, our selection of headphones delivers superior comfort and exceptional sound quality. Elevate your auditory experience with our top-notch headphone collection.", ImageID = 5 }
             );
-            Console.WriteLine("[#] Categories added.");
+            Console.WriteLine("[#] Categories updated.");
 
+            context.Users.AddOrUpdate(
+                u => u.Username,
+                new User { Username = "Admin", EmailAddress = "admin@techstore.com", PasswordHash = "", Forename = "Administrator", Surname = "", ProfilePictureID = 6,},
+                new User { Username = "Guest", EmailAddress = "guest@techstore.com", PasswordHash = "", Forename = "Guest", Surname = "", ProfilePictureID = 7, }
+                );
+            Console.WriteLine("[#] Users updated.");
 
         }
 
