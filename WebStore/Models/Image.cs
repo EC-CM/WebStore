@@ -29,7 +29,11 @@ namespace WebStore.Models
         public string ImagePath { get; set; }
 
 
-        public Image() { } // Parameter-less constructor for functionality
+        public Image()
+        // Parameter-less constructor for functionality
+        {
+            ImagePath = "";
+        }
 
         public Image(string imagePath)
         {
@@ -70,4 +74,7 @@ namespace WebStore.Models
             }
         }
     }
+
+
+
 }

@@ -11,12 +11,20 @@ namespace WebStore
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            // TODO: Direct actions automatically from URL?
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
                 name: "SeedImages",
                 url: "SeedImages",
-                defaults: new { controller = "Home", action = "SeedImages" }
+                defaults: new { controller = "Images", action = "SeedImages" }
+            );
+
+            routes.MapRoute(
+                name: "ASP.NET Guide",
+                url: "ASPNET_Guide",
+                defaults: new { controller = "Home", action = "ASPNET_Guide" }
             );
 
             routes.MapRoute(

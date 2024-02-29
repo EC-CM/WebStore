@@ -5,37 +5,45 @@ using System.Web;
 using System.ComponentModel;
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace WebStore.Models
 {
     public class Product
     {
-        [Required]
-        public int ID { get; set; }
+        [Key]
+        public int ProductID { get; set; }
         [Required(ErrorMessage = "Product must be named.")]
         public string Name { get; set; }
         public string Description { get; set; }
         [Range(0, double.MaxValue, ErrorMessage = "Price must a positive value.")]
         public decimal Price { get; set; }
+        public int? DefaultImageID { get; set; }
+
+        
         public int CategoryID { get; set; }
+        [ForeignKey("CategoryID")]
+        public Category Category { get; set; }
 
 
         public Product()
         {
-            ID = 0;
+            ProductID = 0;
             Name = "No Product Name";
             Description = "No Description";
             Price = 0;
+            DefaultImageID = null;
             CategoryID = 0;
         }
 
-        public Product(int id, string name, string description, decimal price, int categoryID)
+        public Product(int productID, string name, string description, decimal price, int defaultImageID, int categoryID)
         {
-            ID = id;
+            ProductID = productID;
             Name = name;
             Description = description;
             Price = price;
+            DefaultImageID = defaultImageID;
             CategoryID = categoryID;
         }
     }

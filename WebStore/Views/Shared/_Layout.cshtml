@@ -6,9 +6,23 @@
     <title>The Tech Store | @ViewBag.Title</title>
 </head>
 <body>
+    <style>
+        .navbar-brand.nav-title-link {
+            /* color: darkgreen; */ /* Darker colour for "Tech Store" */
+        }
+
+        .navbar-nav .nav-link {
+            color: #1e9469; /* Lighter colour for other links */
+        }
+    </style>
+
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
         <div class="container">
-            @Html.ActionLink("The Tech Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                <img src="@Url.Action("GetImage", "Images", new { image_name = "TechStoreLogo.png", height = 50 })" alt="[ # ]" />
+            </a>
+
+            @Html.ActionLink("Tech Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand nav-title-link" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
