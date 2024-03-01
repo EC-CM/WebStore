@@ -31,7 +31,7 @@
                 imageService.SeedImages();
             }
 
-            //context.SaveChanges();
+            context.SaveChanges();
 
             context.Categories.AddOrUpdate(
                 c => c.Name,
@@ -56,11 +56,11 @@
 
             // Set all to 1?
         {
-            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Categories', RESEED, {(context.Categories.Max(e => (int?)e.CategoryID) ?? 0)})");
-            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Images', RESEED, {(context.Images.Max(e => (int?)e.ImageID) ?? 0)})");
-            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('ProductImages', RESEED, {(context.ProductImages.Max(e => (int?)e.ProductImageID) ?? 0)})");
-            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Products', RESEED, {(context.Products.Max(e => (int?)e.ProductID) ?? 0)})");
-            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Users', RESEED, {(context.Users.Max(e => (int?)e.UserID) ?? 0)})");
+            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Categories', RESEED, {(context.Categories.Max(e => (int?)e.CategoryID) ?? 1)})");
+            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Images', RESEED, {(context.Images.Max(e => (int?)e.ImageID) ?? 1)})");
+            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('ProductImages', RESEED, {(context.ProductImages.Max(e => (int?)e.ProductImageID) ?? 1)})");
+            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Products', RESEED, {(context.Products.Max(e => (int?)e.ProductID) ?? 1)})");
+            context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Users', RESEED, {(context.Users.Max(e => (int?)e.UserID) ?? 1)})");
 
             context.SaveChanges();
         }

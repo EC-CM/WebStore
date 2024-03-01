@@ -63,10 +63,6 @@ namespace WebStore.Services
 
         // Should this be in the image controller?
         {
-            // Temp
-            _db.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Images', RESEED, {(_db.Images.Max(i => (int?)i.ImageID) ?? 0)})");
-
-
             string imageDirectory = "Images";
             string[] imageFilePaths = GetImageFilePaths(imageDirectory);
 
