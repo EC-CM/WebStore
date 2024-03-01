@@ -31,6 +31,8 @@
                 imageService.SeedImages();
             }
 
+            //context.SaveChanges();
+
             context.Categories.AddOrUpdate(
                 c => c.Name,
                 new Category { Name = "TVs", Description = "Elevate your entertainment experience with our cutting-edge TVs. Immerse yourself in stunning visuals, vibrant colors, and crystal-clear sound. Whether you're into thrilling movies, immersive gaming, or catching up on your favorite shows, our range of TVs delivers an unparalleled viewing experience.", ImageID = 2 },
@@ -51,12 +53,16 @@
 
 
         public void ResetAllIDs(DatabaseContext context)
+
+            // Set all to 1?
         {
             context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Categories', RESEED, {(context.Categories.Max(e => (int?)e.CategoryID) ?? 0)})");
             context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Images', RESEED, {(context.Images.Max(e => (int?)e.ImageID) ?? 0)})");
             context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('ProductImages', RESEED, {(context.ProductImages.Max(e => (int?)e.ProductImageID) ?? 0)})");
             context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Products', RESEED, {(context.Products.Max(e => (int?)e.ProductID) ?? 0)})");
             context.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Users', RESEED, {(context.Users.Max(e => (int?)e.UserID) ?? 0)})");
+
+            context.SaveChanges();
         }
 
 
