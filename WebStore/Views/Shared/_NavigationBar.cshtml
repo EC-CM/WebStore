@@ -35,16 +35,23 @@
         margin-right: 20px;
     }
 
-        .ng-centre .ng-logo {
+        .ng-centre .navbar-logo {
             display: flex;
             align-items: center; /* Vertical centre */
             flex-shrink: 0; /* Static size */
+            text-decoration: none; /* Remove blue hyperlink underline */
         }
 
-        .ng-centre .navbar-logo {
-            text-decoration: none;
-            color: inherit;
+        .ng-centre .navbar-logo span{
+            color: #1e9469; /* Green */
+            font-size: 20px;
+            font-weight: 800;
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 1px;
+            margin-left: 10px;
         }
+
+
 
         .ng-centre .ng-search {
             margin-left: 20px;
@@ -103,12 +110,10 @@
         <div class="ng-centre"> <!-- NOTE: Maybe stack logo on top of search? -->
 
             <!-- Group B1: Logo -->
-            <div class="ng-logo">
-                <a class="navbar-logo" href="@Url.Action("Index", "Home")">
-                    <img src="@Url.Action("GetImage", "Images", new { image_name = "TechStoreLogo.png"})" height="50" style="padding-bottom:3px;">
-                    <span style="font-family: 'Roboto', sans-serif; color: #1e9469; font-size: 20px; font-weight: 800; letter-spacing: 1px; ">Tech Store</span>
-                </a>
-            </div>
+            <a class="navbar-logo" href="@Url.Action("Index", "Home")">
+                <img src="@Url.Action("GetImage", "Images", new { image_name = "TechStoreLogo.png"})" height="50">
+                <span>Tech Store</span>
+            </a>
 
             <!-- Group B2: Search field and button -->
             <div class="ng-search">
