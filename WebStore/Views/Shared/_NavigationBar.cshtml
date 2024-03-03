@@ -31,8 +31,7 @@
         align-items: center; /* Vertical centre */
         justify-content: center; /* Horizontal centre */
         flex-grow: 1; /* Fill remaining space in parent container */
-        margin-left: 20px;
-        margin-right: 20px;
+        margin: 0 15%;
     }
 
         .ng-centre .navbar-logo {
@@ -40,6 +39,7 @@
             align-items: center; /* Vertical centre */
             flex-shrink: 0; /* Static size */
             text-decoration: none; /* Remove blue hyperlink underline */
+            margin-right: calc(2% + 5px);
         }
 
         .ng-centre .navbar-logo span{
@@ -54,8 +54,6 @@
 
 
         .ng-centre .ng-search {
-            margin-left: 20px;
-            margin-right: 20px;
             flex-grow: 1; /* Fill remaining space in parent container */
              
             /* Fix for vertical centre without breaking fill-width */
@@ -81,7 +79,6 @@
     .ng-user {
         display: flex;
         flex-shrink: 0;
-        margin-left: 10px;
     }
 </style>
 
