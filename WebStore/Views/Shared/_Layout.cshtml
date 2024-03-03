@@ -4,33 +4,21 @@
 <html>
 
 <head>
-    <!-- Bootstrap CSS --> <!--Is this needed? -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-    <!-- Bootstrap Font Icon CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Tech Store | @ViewBag.Title</title>
-</head>
 
-<body style="background-color: #082727; color: white">
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    
+    @Styles.Render("~/Content/css")
 
     <style>
 
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-        }
-
-        .navbar-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        body {
+            background-color: #082727;
+            color: white;
         }
 
         .abs-centre {
@@ -40,77 +28,14 @@
             transform: translateX(-50%);
             text-align: center;
         }
-
-        .navbar-nav .nav-link {
-            color: inherit !important;
-        }
-
-            .navbar-nav .nav-link:hover {
-                color: #1e9469 !important;
-            }
     </style>
 
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark">
-        <div class="container-fluid">
+</head>
 
 
-            <button class="navbar-menu" type="button" onclick="alert('Menu clicked')">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<body>
 
-            <!-- Group A: Branding -->
-            <div class="navbar-group ng-logo">
-                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                    <img src="@Url.Action("GetImage", "Images", new { image_name = "TechStoreLogo.png"})" height="50">
-                    <span style="margin-left: 10px; font-family: 'Roboto', sans-serif; font-weight: bold; color: #1e9469;">Tech Store</span>
-                </a>
-            </div>
-
-            <!-- Group B: Navigation links -->
-            <div class="navbar-group ng-navlinks">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a>
-                    </li>
-
-                </ul>
-            </div>
-
-            <!-- Group C: Search field and button -->
-            <div class="navbar-group ng-search abs-centre">
-                <form class="d-flex input-group mb-3" role="search" onsubmit="submitSearch(event)">
-                    <input type="search" id="navbarSearch" class="form-control me-2" placeholder="Search" aria-label="Search">
-                    <button type="submit" class="btn btn-outline-success"><span class="bi-search"></span></button>
-                </form>
-            </div>
-
-            <!-- Group D: User -->
-            <div class="navbar-group ng-user ms-auto">
-                <div class="dropdown">
-                    <a href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="@Url.Action("GetUserProfileImage", "Images", new { userID = 1 })" class="rounded-circle" alt="User Profile Image" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <!-- Add dropdown items as needed -->
-                        <li><a class="dropdown-item" href="@Url.Action("Profile", "User", new { userID = 1 })">Profile</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("Index", "User")">View All Users</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" onclick="alert('Logging you out...')">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </nav>
-
-
+    @Html.Partial("_NavigationBar")
 
 
     <div class="container body-content">
@@ -121,12 +46,10 @@
         </footer>
     </div>
 
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         function submitSearch(event) {
@@ -136,10 +59,16 @@
 
         function toggleUserModal() {
             alert('Hello user!');
-            var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+
+        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
             myModal.show();
         }
     </script>
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>

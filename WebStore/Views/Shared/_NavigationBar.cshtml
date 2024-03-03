@@ -1,0 +1,141 @@
+﻿<style>
+
+    .dropdown-menu {
+        background-color: #262626; /* Dark grey */
+    }
+
+    .dropdown-item {
+        color: white;
+    }
+
+        .dropdown-item:hover {
+            color: #1e9469; /* Green */
+            background-color: inherit;
+        }
+
+    .navbar {
+        display: flex;
+        align-items: center; /* Vertical centre */
+        justify-content: space-between;
+        padding: 10px;
+        position: relative;
+    }
+
+    .ng-menu button {
+        background-color: transparent;
+        border: none;
+    }
+
+    .ng-centre {
+        display: flex;
+        align-items: center; /* Vertical centre */
+        justify-content: center; /* Horizontal centre */
+        flex-grow: 1; /* Fill remaining space in parent container */
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+        .ng-centre .ng-logo {
+            display: flex;
+            align-items: center; /* Vertical centre */
+            flex-shrink: 0; /* Static size */
+        }
+
+        .ng-centre .navbar-logo {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .ng-centre .ng-search {
+            margin-left: 20px;
+            margin-right: 20px;
+            flex-grow: 1; /* Fill remaining space in parent container */
+             
+            /* Fix for vertical centre without breaking fill-width */
+            display: grid;
+            align-content: center;
+        }
+
+            .ng-centre .ng-search form {
+                display: flex;
+                align-items: center; /* Vertical centre */
+                height: 100%; /* Needed for aligned items */
+            }
+
+            .ng-centre .ng-search #navbarSearch {
+                max-width: none; /* Overrides default, allowing a long search bar */
+                border-radius: 0.8rem;
+            }
+
+            .ng-centre .ng-search button {
+                border-radius: 2rem;
+            }
+
+    .ng-user {
+        display: flex;
+        flex-shrink: 0;
+        margin-left: 10px;
+    }
+</style>
+
+
+
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark" style="background-color:black !important;">
+    <div class="container-fluid flex-nowrap">
+
+        <!-- Group A: Menu button -->
+        <div class="ng-menu">
+            <div class="dropdown">
+                <button type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="menuDropdown">
+                    <li><a class="dropdown-item" href="@Url.Action("About", "Home")">About</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Contact", "Home")">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Group B: Logo and Search -->
+        <div class="ng-centre"> <!-- NOTE: Maybe stack logo on top of search? -->
+
+            <!-- Group B1: Logo -->
+            <div class="ng-logo">
+                <a class="navbar-logo" href="@Url.Action("Index", "Home")">
+                    <img src="@Url.Action("GetImage", "Images", new { image_name = "TechStoreLogo.png"})" height="50" style="padding-bottom:3px;">
+                    <span style="font-family: 'Roboto', sans-serif; color: #1e9469; font-size: 20px; font-weight: 800; letter-spacing: 1px; ">Tech Store</span>
+                </a>
+            </div>
+
+            <!-- Group B2: Search field and button -->
+            <div class="ng-search">
+                <form class="d-flex mb-3" role="search" onsubmit="submitSearch(event)">
+                    <input type="search" id="navbarSearch" class="form-control me-2" placeholder="Search" aria-label="Search">
+                    <button type="submit" class="btn btn-outline-success"><span class="bi-search"></span></button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Group C: User -->
+        <div class="ng-user">
+            <div class="dropdown">
+                <a href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="@Url.Action("GetUserProfileImage", "Images", new { userID = 1 })" class="rounded-circle" alt="User Profile Image" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <!-- Add dropdown items as needed -->
+                    <li><a class="dropdown-item" href="@Url.Action("Profile", "User", new { userID = 1 })">Profile</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Index", "User")">View All Users</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" onclick="alert('Logging you out...')">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</nav>
