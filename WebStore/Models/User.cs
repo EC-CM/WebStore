@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Policy;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace WebStore.Models
 {
@@ -19,8 +20,10 @@ namespace WebStore.Models
         public string PasswordHash { get; set; }
         public string Forename { get; set; }
         public string Surname {  get; set; }
-        //public string PhoneNumber { get; set; }
-        //public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+
+        public string Role { get; set; }
 
         public int? ProfilePictureID { get; set; }    // RENAME TO ProfileImage
         [ForeignKey("ProfilePictureID")]
@@ -33,10 +36,11 @@ namespace WebStore.Models
             PasswordHash = "";
             Forename = "";
             Surname = "";
+            Role = "Guest";
             ProfilePictureID = null;
         }
 
-        public User(int userID, string username, string emailAddress, string passwordHash, string forename, string surname, int? profilePictureID)
+        public User(int userID, string username, string emailAddress, string passwordHash, string forename, string surname, int? profilePictureID, string role="User")
         {
             UserID = userID;
             Username = username;
@@ -44,6 +48,7 @@ namespace WebStore.Models
             PasswordHash = passwordHash;
             Forename = forename;
             Surname = surname;
+            Role = role;
             ProfilePictureID = profilePictureID;
         }
     }

@@ -137,6 +137,10 @@
     <Compile Include="Migrations\202402290033500_InitialState.Designer.cs">
       <DependentUpon>202402290033500_InitialState.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202403030807415_User-RoleAddressPhone-Added.cs" />
+    <Compile Include="Migrations\202403030807415_User-RoleAddressPhone-Added.Designer.cs">
+      <DependentUpon>202403030807415_User-RoleAddressPhone-Added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
@@ -173,6 +177,83 @@
     <Content Include="Images\Categories\2\Category_Monitors.jpg" />
     <Content Include="Images\Categories\3\Category_Smartphones.png" />
     <Content Include="Images\Categories\4\Category_Headphones.jpg" />
+    <Content Include="Images\Products\4 _Headphones\18\Sony_WH-1000XM5-1.jpg" />
+    <Content Include="Images\Products\4 _Headphones\18\Sony_WH-1000XM5-2.jpg" />
+    <Content Include="Images\Products\4 _Headphones\18\Sony_WH-1000XM5-3.jpg" />
+    <Content Include="Images\Products\4 _Headphones\18\Sony_WH-1000XM5-4.jpg" />
+    <Content Include="Images\Products\4 _Headphones\18\Sony_WH-1000XM5-5.jpg" />
+    <Content Include="Images\Products\4 _Headphones\18\Sony_WH-1000XM5-6.jpg" />
+    <Content Include="Images\Products\4 _Headphones\18\Sony_WH-1000XM5-7.jpg" />
+    <Content Include="Images\Products\4 _Headphones\19\Sony_WH-1000XM4-1.jpg" />
+    <Content Include="Images\Products\4 _Headphones\19\Sony_WH-1000XM4-2.jpg" />
+    <Content Include="Images\Products\4 _Headphones\19\Sony_WH-1000XM4-3.jpg" />
+    <Content Include="Images\Products\4 _Headphones\20\Sennheiser_MOMENTUM_4-1.jpg" />
+    <Content Include="Images\Products\4 _Headphones\20\Sennheiser_MOMENTUM_4-2.jpg" />
+    <Content Include="Images\Products\4 _Headphones\20\Sennheiser_MOMENTUM_4-3.jpg" />
+    <Content Include="Images\Products\4 _Headphones\21\Bose_Quietcomfort_Ultra-Headphones-1.png" />
+    <Content Include="Images\Products\4 _Headphones\21\Bose_Quietcomfort_Ultra-Headphones-2.jpg" />
+    <Content Include="Images\Products\4 _Headphones\21\Bose_Quietcomfort_Ultra-Headphones-3.jpg" />
+    <Content Include="Images\Products\4 _Headphones\21\Bose_Quietcomfort_Ultra-Headphones-4.jpg" />
+    <Content Include="Images\Products\4 _Headphones\21\Bose_Quietcomfort_Ultra-Headphones-5.jpg" />
+    <Content Include="Images\Products\2_Monitors\07\Alienware_AW3423DWF-1.jpg" />
+    <Content Include="Images\Products\2_Monitors\07\Alienware_AW3423DWF-2.png" />
+    <Content Include="Images\Products\2_Monitors\07\Alienware_AW3423DWF-3.png" />
+    <Content Include="Images\Products\2_Monitors\07\Alienware_AW3423DWF-4.png" />
+    <Content Include="Images\Products\2_Monitors\08\AOC_CU34G2-1.png" />
+    <Content Include="Images\Products\2_Monitors\08\AOC_CU34G2-2.png" />
+    <Content Include="Images\Products\2_Monitors\08\AOC_CU34G2-3.png" />
+    <Content Include="Images\Products\2_Monitors\08\AOC_CU34G2-4.png" />
+    <Content Include="Images\Products\2_Monitors\09\Corsair_Xeneon_Flex_45WQHD240-1.jpg" />
+    <Content Include="Images\Products\2_Monitors\09\Corsair_Xeneon_Flex_45WQHD240-2.jpg" />
+    <Content Include="Images\Products\2_Monitors\09\Corsair_Xeneon_Flex_45WQHD240-3.jpg" />
+    <Content Include="Images\Products\2_Monitors\09\Corsair_Xeneon_Flex_45WQHD240-4.jpg" />
+    <Content Include="Images\Products\2_Monitors\10\LG_UltraGear_38GN950-1.jpg" />
+    <Content Include="Images\Products\2_Monitors\10\LG_UltraGear_38GN950-2.jpg" />
+    <Content Include="Images\Products\2_Monitors\10\LG_UltraGear_38GN950-3.jpg" />
+    <Content Include="Images\Products\2_Monitors\11\Samsung_Odyssey_Neo_G9-1.jpg" />
+    <Content Include="Images\Products\2_Monitors\11\Samsung_Odyssey_Neo_G9-2.jpg" />
+    <Content Include="Images\Products\2_Monitors\12\Samsung_Odyssey_OLED_G9-1.png" />
+    <Content Include="Images\Products\2_Monitors\12\Samsung_Odyssey_OLED_G9-2.png" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-01.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-10.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-02.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-03.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-04.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-05.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-06.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-07.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-08.jpg" />
+    <Content Include="Images\Products\3_Smartphones\13\Sony_Xperia_1_V-09.jpg" />
+    <Content Include="Images\Products\3_Smartphones\14\Sony_Xperia_5_V-1.jpg" />
+    <Content Include="Images\Products\3_Smartphones\14\Sony_Xperia_5_V-2.jpg" />
+    <Content Include="Images\Products\3_Smartphones\14\Sony_Xperia_5_V-3.jpg" />
+    <Content Include="Images\Products\3_Smartphones\14\Sony_Xperia_5_V-4.jpg" />
+    <Content Include="Images\Products\3_Smartphones\15\Asus_ROG_Phone_7_Ultimate-1.jpg" />
+    <Content Include="Images\Products\3_Smartphones\15\Asus_ROG_Phone_7_Ultimate-2.jpg" />
+    <Content Include="Images\Products\3_Smartphones\15\Asus_ROG_Phone_7_Ultimate-3.png" />
+    <Content Include="Images\Products\3_Smartphones\16\Samsung_Galaxy_S24_Ultra-1.jpg" />
+    <Content Include="Images\Products\3_Smartphones\16\Samsung_Galaxy_S24_Ultra-2.jpg" />
+    <Content Include="Images\Products\3_Smartphones\16\Samsung_Galaxy_S24_Ultra-3.jpg" />
+    <Content Include="Images\Products\3_Smartphones\16\Samsung_Galaxy_S24_Ultra-4.jpg" />
+    <Content Include="Images\Products\3_Smartphones\16\Samsung_Galaxy_S24_Ultra-5.jpg" />
+    <Content Include="Images\Products\3_Smartphones\17\Google_Pixel_8_Pro-1.png" />
+    <Content Include="Images\Products\3_Smartphones\17\Google_Pixel_8_Pro-2.png" />
+    <Content Include="Images\Products\3_Smartphones\17\Google_Pixel_8_Pro-3.png" />
+    <Content Include="Images\Products\3_Smartphones\17\Google_Pixel_8_Pro-4.png" />
+    <Content Include="Images\Products\1_TVs\01\Sony_Bravia_XR-55A95LU-1.jpg" />
+    <Content Include="Images\Products\1_TVs\01\Sony_Bravia_XR-55A95LU-2.png" />
+    <Content Include="Images\Products\1_TVs\02\Sony_Bravia_XR55A80LU-1.jpg" />
+    <Content Include="Images\Products\1_TVs\02\Sony_Bravia_XR55A80LU-2.jpg" />
+    <Content Include="Images\Products\1_TVs\02\Sony_Bravia_XR55A80LU-3.jpg" />
+    <Content Include="Images\Products\1_TVs\03\Samsung_S90C-1.png" />
+    <Content Include="Images\Products\1_TVs\03\Samsung_S90C-2.png" />
+    <Content Include="Images\Products\1_TVs\04\LG_OLED55C3-1.jpg" />
+    <Content Include="Images\Products\1_TVs\04\LG_OLED55C3-2.png" />
+    <Content Include="Images\Products\1_TVs\04\LG_OLED55C3-3.png" />
+    <Content Include="Images\Products\1_TVs\05\LG-OLED55G36LA-1.jpg" />
+    <Content Include="Images\Products\1_TVs\05\LG-OLED55G36LA-2.jpg" />
+    <Content Include="Images\Products\1_TVs\06\Hisense_55U8K-1.png" />
+    <Content Include="Images\Products\1_TVs\06\Hisense_55U8K-2.jpg" />
     <Content Include="Images\TechStoreLogo.png" />
     <Content Include="Images\Users\1\User_Admin.jpg" />
     <Content Include="Images\Users\2\User_Guest.jpg" />
@@ -214,7 +295,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\Products\" />
     <Folder Include="Images\Users\3\" />
     <Folder Include="Views\Image\" />
   </ItemGroup>
@@ -248,6 +328,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202402290033500_InitialState.resx">
       <DependentUpon>202402290033500_InitialState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403030807415_User-RoleAddressPhone-Added.resx">
+      <DependentUpon>202403030807415_User-RoleAddressPhone-Added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
