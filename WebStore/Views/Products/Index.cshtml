@@ -1,0 +1,133 @@
+﻿@model WebStore.Models.ViewModel
+
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+
+        .a-blank {
+            color: inherit;
+            text-decoration: none;
+        }
+
+            .a-blank:hover,
+            .card:hover .card-text h5 {
+                color: #1e9469 !important;
+                text-decoration: none !important;
+            }
+
+        .card-text h5 {
+            font-size: .875rem;
+            font-weight: 500;
+            line-height: 2rem;
+            text-align: center;
+            color: rgb(232, 230, 227);
+            width: 100%;
+            word-break: break-word;
+        }
+
+        .bi-heart-fill:hover,
+        .bi-heart {
+            color: black;
+            text-decoration: none !important;
+            /* <i class="bi bi-heartbreak-fill"></i> */
+        }
+
+        .bi-heart:hover,
+        .bi-heart-fill {
+            color: red;
+            text-decoration: none !important;
+        }
+
+        /* This probably makes some other styles redundant */
+        .text-link {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+            .text-link:hover {
+                color: #1e9469
+            }
+
+    </style>
+
+
+</head>
+
+<body>
+
+    <h1 class="text-center m-4"><a href="@Url.Action("Index", "Products")" style="text-decoration: none !important; color:white; font-weight:500;">Products</a></h1>
+    <hr class="my-4">
+
+
+    @if (@Model.Category.Name != "")
+    {
+        <h2 class="text-center m-4">@Model.Category.Name</h2>
+        <a href="@Url.Action("Index", "Products", new {filterByCategory = @Model.Category.CategoryID, sort = true})">Sort by Price</a>
+    }
+    else
+    {
+        <h2 class="text-center m-4">All</h2>
+        <a href="@Url.Action("Index", "Products", new {sort = true})">Sort by Price</a>
+    }
+
+    
+
+        <div class="container-fluid">
+            <div class="row">
+                @foreach (WebStore.Models.Product product in Model.Products)
+                {
+                    <div class="card mb-3 position-relative" style="width: 18rem; margin: 0 20px 20px 0; background-color: #181a1b; padding: 0;">
+                        <div style="height: 300px; background-color: white; position: relative;">
+                            
+                            <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
+                                <img src="@Url.Action("GetImage", "Images", new { id = product.DefaultImageID, height = 300, width = 300 })" class="card-img-top" alt="[Product Image]" style="width: 100%; height: 100%; object-fit: cover;" />
+                            </a>
+
+                            <a href="#" class="bi-heart position-absolute top-0 end-0 m-3" onclick="handleFavouriteItems(event, @product.ProductID, '@product.Name')"></a>
+</div>
+                        <div class="card-body">
+
+                            <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
+                                <h5 class="card-title">@Html.DisplayFor(p => product.Name)</h5>
+                            </a>
+
+                            <!-- Link text to view categories? -->
+                            <p class="card-text">Category: @Html.DisplayFor(p => product.Category.Name)</p>
+
+                        </div>
+
+                        <div class="card-footer d-flex align-items-center justify-content-between" style="margin: 10px 0;">
+                            <p class="card-text" style="font-weight: bold; font-size: 1.4em; margin-bottom: 0; color: white;">£@Html.DisplayFor(p => product.Price)</p>
+                            <button class="btn btn-success" style="background-color: #1e9469; border: 1px solid #186e57; color: white;">Add to Cart <i class="bi bi-cart2"></i></button>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        <script>
+
+            function handleFavouriteItems(event, productID, productName) {
+                var classes = event.currentTarget.classList;
+
+                // Fill/unfill heart icon
+                classes.toggle('bi-heart');
+                classes.toggle('bi-heart-fill');
+
+                alert(`This would save/favourite the item clicked:\n\n ${productID}: ${productName}`);
+            }
+        </script>
+
+</body>
+
+</html>

@@ -29,12 +29,11 @@ namespace WebStore.Models
 
         public Product()
         {
-            ProductID = 0;
             Name = "No Product Name";
             Description = "No Description";
             Price = 0;
             DefaultImageID = null;
-            CategoryID = 0;
+            CategoryID = 1;
         }
 
         public Product(int productID, string name, string description, decimal price, int defaultImageID, int categoryID)

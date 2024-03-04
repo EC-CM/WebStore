@@ -82,14 +82,16 @@ namespace WebStore.Services
                 if (uniqueImages.Count > 0)
                 {
                     _db.Images.AddRange(uniqueImages);
-                    _db.SaveChanges();
-                    Console.WriteLine($"[#] Images seeded successfully! {uniqueImages.Count} new images were added to the database.");
+                    
 
                     // Print the names of each added image
                     foreach (Image addedImage in uniqueImages)
                     {
                         Console.WriteLine($"    - {addedImage.ImageName}");
                     }
+
+                    _db.SaveChanges();
+                    Console.WriteLine($"[#] Images seeded successfully! {uniqueImages.Count} new images were added to the database.");
                 }
                 else
                 {
@@ -106,7 +108,6 @@ namespace WebStore.Services
             {
                 Console.WriteLine($"Error: No images were found in {imageDirectory}");
             }
-
             //Image dog1 = new Image { ImageName = "Dog1", ImageData = GetImageData("~/Images/") };
         }
     }

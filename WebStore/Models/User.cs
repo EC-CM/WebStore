@@ -40,7 +40,7 @@ namespace WebStore.Models
             ProfilePictureID = null;
         }
 
-        public User(int userID, string username, string emailAddress, string passwordHash, string forename, string surname, int? profilePictureID, string role="User")
+        public User(int userID, string username, string emailAddress, string passwordHash, string forename, string surname, int? profilePictureID=null, string role="User")
         {
             UserID = userID;
             Username = username;
