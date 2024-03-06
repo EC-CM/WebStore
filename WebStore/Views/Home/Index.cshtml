@@ -9,8 +9,6 @@
 <html>
 
 <head>
-    <title>SEE ME</title>
-
     <style>
 
         .a-blank {
@@ -46,6 +44,7 @@
     </div>
 
 
+    <!-- Banner adds for products being sold that link to product details or filtered results? -->
     <div id="featuredCarousel" class="carousel slide" style="margin-bottom:50px">
 
         <div class="carousel-indicators">
@@ -86,7 +85,7 @@
         <div class="d-flex flex-row">
             @foreach (WebStore.Models.Category category in Model.Categories)
             {
-                <a href="@Url.Action("Index", "Products", new { filterByCategory = category.CategoryID})" class="card card-row mb-3 border-0 a-blank bg-transparent" style="width: 18rem; margin-right: 10px;">
+                <a href="@Url.Action("Index", "Products", new { category = category.CategoryID})" class="card card-row mb-3 border-0 a-blank bg-transparent" style="width: 18rem; margin-right: 10px;">
                     <img src="@Url.Action("GetImage", "Images", new { id = category.ImageID, height = 300})" alt="[ ! ]" />
 
                     <div class="card-text">
@@ -95,12 +94,12 @@
                 </a>
             }
 
-        <a href="@Url.Action("Index", "Products")" class="card card-row mb-3 a-blank bg-transparent border-0" style="width: 18rem; margin-right: 10px;">
-            <div class="card-header text-center border-0" style="height: 300px; background-color: transparent !important;">
-                <i class="bi bi-arrow-right-circle" style="font-size: 7rem;"></i>
-                <h5 class="card-title text-center">View All Products</h5>
-            </div>
-        </a>
+            <a href="@Url.Action("Index", "Products")" class="card card-row mb-3 a-blank bg-transparent border-0" style="width: 18rem; margin-right: 10px;">
+                <div class="card-header text-center border-0" style="height: 300px; background-color: transparent !important;">
+                    <i class="bi bi-arrow-right-circle" style="font-size: 7rem;"></i>
+                    <h5 class="card-title text-center">View All Products</h5>
+                </div>
+            </a>
 
             <!-- use vw for relative sizes -->
 

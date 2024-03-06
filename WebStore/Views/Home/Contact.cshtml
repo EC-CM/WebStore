@@ -1,19 +1,98 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Contact Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+<!DOCTYPE html>
+<html>
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
-</main>
+<head>
+
+    <style>
+
+        body {
+            text-align: center;
+        }
+
+        a.text-link {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+
+        .child-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+        }
+
+            .child-container.address {
+                flex: 1; /* Fill all space*/
+                aspect-ratio: 1; /* 1:1 aspect ratio */
+                padding: 20px;
+            }
+
+            .child-container.map {
+                flex: 1.5; /* Fill 1.5x space as address */
+                position: relative;
+            }
+
+                .child-container.map iframe {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                }
+
+        .text-link:hover {
+            color: #1e9469 !important;
+        }
+
+        h2 {
+            font-weight: 600;
+            margin-bottom: 50px;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <div>
+        <h2 id="title">@ViewBag.Title</h2>
+
+        <address class="contact-info" style="margin-bottom:50px">
+            <strong>Support:</strong>   <a href="mailto:Support@TechStore.com" class="text-link">Support@TechStore.com</a><br />
+            <strong>Marketing:</strong> <a href="mailto:Marketing@TechStore.com" class="text-link">Marketing@TechStore.com</a>
+        </address>
+    </div>
+
+    <hr class="my-4">
+
+    <h2>Our Store</h2>
+
+    <div class="d-flex" style="margin-bottom:50px">
+
+        <div class="child-container address">
+            <a href="https://www.youtube.com/watch?v=doaR7uMbjZw" target="_blank" class="text-link">
+                <address>
+                    <span style="font-weight:600; font-size: 2rem">Tech Store</span><br />
+                    <span style="font-size: 1.75rem">
+                        18 Main Street<br />
+                        Yonkers, NY 10701
+                    </span>
+                </address>
+            </a>
+        </div>
+
+        <div class="child-container map">
+            <iframe src="https://www.google.com/maps/embed?pb=!4v1709678230487!6m8!1m7!1sLb92RQmkVlKbTFqL74Ca3Q!2m2!1d40.93428989152194!2d-73.89900953455628!3f166.30191334501882!4f-11.007510643256865!5f0.7820865974627469"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+    </div>
+
+</body>
+</html>

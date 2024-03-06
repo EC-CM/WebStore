@@ -1,9 +1,31 @@
 ﻿@{
     ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 id="title" style="margin-bottom: 50px; font-weight: 600">@ViewBag.Title</h2>
+        <p style="margin-bottom: 50px">We are a tech store selling various high-end products, such as flagship phones, premium monitors, quality TVs and studio-quality headphones.</p>
+        <img src="@Url.Action("GetImage", "Images", new { image_name = "TechStoreLogo.png"})" height="500" style="margin-bottom: 50px">
+    </div>
+
+</body>
+</html>

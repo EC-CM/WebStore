@@ -46,6 +46,15 @@
             text-decoration: none !important;
         }
 
+        .add-to-card {
+            background-color: #1e9469;
+            border: 1px solid #186e57;
+            color: white;
+        }
+        .add-to-cart:hover {
+            background-color: #136144;
+        }
+
         /* This probably makes some other styles redundant */
         .text-link {
             color: inherit;
@@ -70,7 +79,7 @@
     @if (@Model.Category.Name != "")
     {
         <h2 class="text-center m-4">@Model.Category.Name</h2>
-        <a href="@Url.Action("Index", "Products", new {filterByCategory = @Model.Category.CategoryID, sort = true})">Sort by Price</a>
+        <a href="@Url.Action("Index", "Products", new {category = @Model.Category.CategoryID, sort = true})">Sort by Price</a>
     }
     else
     {
@@ -91,7 +100,7 @@
                                 <img src="@Url.Action("GetImage", "Images", new { id = product.DefaultImageID, height = 300, width = 300 })" class="card-img-top" alt="[Product Image]" style="width: 100%; height: 100%; object-fit: cover;" />
                             </a>
 
-                            <a href="#" class="bi-heart position-absolute top-0 end-0 m-3" onclick="handleFavouriteItems(event, @product.ProductID, '@product.Name')"></a>
+                            <a class="bi-heart position-absolute top-0 end-0 m-3" onclick="handleFavouriteItems(event, @product.ProductID, '@product.Name')"></a>
 </div>
                         <div class="card-body">
 
@@ -100,13 +109,13 @@
                             </a>
 
                             <!-- Link text to view categories? -->
-                            <p class="card-text">Category: @Html.DisplayFor(p => product.Category.Name)</p>
+                            <p class="card-text">Category: <a href="@Url.Action("Index", "Products", new { category = product.CategoryID } )">@Html.DisplayFor(p => product.Category.Name)</a></p>
 
                         </div>
 
                         <div class="card-footer d-flex align-items-center justify-content-between" style="margin: 10px 0;">
                             <p class="card-text" style="font-weight: bold; font-size: 1.4em; margin-bottom: 0; color: white;">£@Html.DisplayFor(p => product.Price)</p>
-                            <button class="btn btn-success" style="background-color: #1e9469; border: 1px solid #186e57; color: white;">Add to Cart <i class="bi bi-cart2"></i></button>
+                            <button class="btn btn-success add-to-cart">Add to Cart <i class="bi bi-cart2"></i></button>
                         </div>
 
                     </div>

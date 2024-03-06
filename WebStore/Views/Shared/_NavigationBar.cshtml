@@ -114,8 +114,8 @@
 
             <!-- Group B2: Search field and button -->
             <div class="ng-search">
-                <form class="d-flex mb-3" role="search" onsubmit="submitSearch(event)">
-                    <input type="search" id="navbarSearch" class="form-control me-2" placeholder="Search" aria-label="Search">
+                <form class="d-flex mb-3" role="search" action="@Url.Action("Index", "Products")" method="get">
+                    <input type="search" name="searchPhrase" id="navbarSearch" class="form-control me-2" placeholder="Search" aria-label="Search">
                     <button type="submit" class="btn btn-outline-success"><span class="bi-search"></span></button>
                 </form>
             </div>

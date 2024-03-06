@@ -10,7 +10,7 @@
 <div>
     <h4>Product</h4>
     <hr />
-    <span style="font-weight:500; font-size=30rem">@Html.DisplayFor(model => model.Product.Name)</span>
+    <span style="font-weight:600; font-size:2.5rem">@Html.DisplayFor(model => model.Product.Name)</span>
     <img src="@Url.Action("GetImage", "Images", new { id = Model.Product.DefaultImageID, height = 500, width = 500 })" />
 
     <dl class="dl-horizontal">
