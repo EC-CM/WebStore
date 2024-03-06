@@ -1,0 +1,79 @@
+﻿@model IEnumerable<WebStore.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+
+    th, td {
+        color:white;
+    }
+
+</style>
+
+<div class="alert alert-danger text-center" role="alert" style="margin-bottom:50px">
+    Admin access only!
+</div>
+
+<h2>All Users</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ProfileImage
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Forename)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PasswordHash)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>
+                <img src="@Url.Action("GetImage", "Images", new { id = user.ProfilePictureID, height=50})" class="rounded-circle" alt="User Profile Image" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.Forename)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.EmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.PasswordHash)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = user.UserID }) |
+                @Html.ActionLink("Details", "Details", new { id = user.UserID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = user.UserID })
+            </td>
+        </tr>
+    }
+
+</table>

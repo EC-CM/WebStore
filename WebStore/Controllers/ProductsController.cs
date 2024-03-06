@@ -67,7 +67,12 @@ namespace WebStore.Controllers
             if (sort)
             { models = Sort(models); }
 
-            return View("Index", models);
+            return View("Products", models);
+        }
+
+        public ActionResult Products()
+        {
+            return RedirectToAction("Index");
         }
 
 
@@ -88,6 +93,7 @@ namespace WebStore.Controllers
 
         public ViewModel Search(ViewModel vm, string searchPhrase)
         {
+            vm.SearchPhrase = searchPhrase;
 
             if (searchPhrase.StartsWith("\"") && searchPhrase.EndsWith("\""))
             // Exact match: "searchPhrase"
@@ -138,7 +144,7 @@ namespace WebStore.Controllers
                           select p).ToList();
             }
 
-            return View("Index", products);
+            return View("Products", products);
         }
 
         public ViewModel FilterByCategory(ViewModel vm, int categoryID)

@@ -17,7 +17,7 @@
 
     internal sealed class Configuration : DbMigrationsConfiguration<WebStore.Models.DatabaseContext>
     {
-        private DatabaseContext _context;
+        //private DatabaseContext _context;
 
         public Configuration()
         {

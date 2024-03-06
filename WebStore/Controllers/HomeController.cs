@@ -51,7 +51,12 @@ namespace WebStore.Controllers
                 Categories = _db.Categories.ToList()
             };
 
-            return View("Index", models);
+            return View("Home", models);
+        }
+
+        public ActionResult Home()
+        {
+            return RedirectToAction("Index");
         }
 
         public ActionResult About()

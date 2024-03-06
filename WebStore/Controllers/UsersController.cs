@@ -27,7 +27,12 @@ namespace WebStore.Controllers
         {
             List<User> users = _db.Users.ToList();
 
-            return View("Index", users);
+            return View("Users", users);
+        }
+
+        public ActionResult Users()
+        {
+            return RedirectToAction("Index");
         }
 
         public ActionResult Profile(int userID)

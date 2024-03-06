@@ -33,6 +33,7 @@ namespace WebStore.Controllers
         }
 
         public ActionResult Index()
+        // NOT IMPLEMENTED
         {
             return View();
         }
@@ -57,7 +58,6 @@ namespace WebStore.Controllers
             }
             else if (imported_image != null)
             { // NOTE: Order matters here - when first, somehow an ID and Image are passed in and it errors?
-                Debug.WriteLine("Image passed in." + id);
                 image = imported_image;
             }
             else
@@ -123,7 +123,6 @@ namespace WebStore.Controllers
 
             if (profileImage != null) 
             {
-                Debug.WriteLine("Calling GetImage with Image");
                 return GetImage(imported_image: profileImage, height: 50); 
             }
             else { return Content("Profile image not found."); }

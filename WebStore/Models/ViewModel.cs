@@ -22,6 +22,8 @@ namespace WebStore.Models
         public Image Image { get; set; }
         public ProductImage ProductImage { get; set; }
 
+        public String SearchPhrase { get; set; }
+
         public ViewModel
         // Allows for any combination of models to be passed in
         (
@@ -35,7 +37,9 @@ namespace WebStore.Models
             User user = null,
             Product product = null,
             Image image = null,
-            ProductImage productImage = null)
+            ProductImage productImage = null,
+            
+            string searchPhrase = "")
         {
             Categories = categories ?? new List<Category>();
             Users = users ?? new List<User>();
@@ -48,6 +52,8 @@ namespace WebStore.Models
             Product = product ?? new Product();
             Image = image ?? new Image();
             ProductImage = productImage ?? new ProductImage();
+
+            SearchPhrase = searchPhrase;
         }
     }
 }
