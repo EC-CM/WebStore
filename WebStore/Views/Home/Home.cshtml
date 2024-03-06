@@ -11,26 +11,53 @@
 <head>
     <style>
 
-        .a-blank {
-            color: inherit;
-            text-decoration: none;
+
+        .card-row {
+        /* Horizontal row of cards */
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
         }
 
-        .a-blank:hover,
-        .card:hover .card-text h5 {
-            color: #1e9469 !important;
-            text-decoration: none !important;
-        }
+            .card-row .card {
+                border: 0;
+                width: 18rem;
+                margin-right: 10px;
+                margin-bottom: 1rem;
+                background: transparent;
+            }
+                .card-row .card:hover .card-title {
+                    color: #1e9469 !important;
+                    text-decoration: none !important;
+                }
 
-        .card-text h5 {
-            font-size: .875rem;
-            font-weight: 500;
-            line-height: 2rem;
-            text-align: center;
-            color: rgb(232, 230, 227);
-            width: 100%;
-            word-break: break-word;
-        }
+                .card-row .card .card-title,
+                #view-all-card {
+                    font-size: .875rem;
+                    font-weight: 600;
+                    line-height: 2rem;
+                    text-align: center;
+                    color: rgb(232, 230, 227);
+                    word-break: break-word;
+                }
+
+                .card-row .card .card-main {
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    aspect-ratio: 1; /*  1:1  */
+                    overflow: hidden; /* No overflow */
+                    position: relative;
+                }
+
+
+
+                    .card-row .card .card-main #view-all {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 10% 10%;
+                    }
+
 
     </style>
 
@@ -78,35 +105,42 @@
     </div>
 
 
-
     <h2 class="text-center" style="margin-top:25px;margin-bottom:25px;">Product Categories</h2>
 
-    <div class="container-fluid">
-        <div class="d-flex flex-row">
-            @foreach (WebStore.Models.Category category in Model.Categories)
-            {
-                <a href="@Url.Action("Index", "Products", new { category = category.CategoryID})" class="card card-row mb-3 border-0 a-blank bg-transparent" style="width: 18rem; margin-right: 10px;">
-                    <img src="@Url.Action("GetImage", "Images", new { id = category.ImageID, height = 300})" alt="[ ! ]" />
 
-                    <div class="card-text">
-                        <h5 class="card-text">@Html.DisplayFor(m => category.Name)</h5>
-                    </div>
-                </a>
-            }
 
-            <a href="@Url.Action("Index", "Products")" class="card card-row mb-3 a-blank bg-transparent border-0" style="width: 18rem; margin-right: 10px;">
-                <div class="card-header text-center border-0" style="height: 300px; background-color: transparent !important;">
-                    <i class="bi bi-arrow-right-circle" style="font-size: 7rem;"></i>
-                    <h5 class="card-title text-center">View All Products</h5>
-                </div>
+    <!-- use vw for relative sizes -->
+    <div class="container-fluid card-row">
+
+        <!-- Category cards -->
+        @foreach (WebStore.Models.Category category in Model.Categories)
+        {
+            <a class="card text-link" id="category-card" href="@Url.Action("Index", "Products", new { category = category.CategoryID})">
+
+                <img src="@Url.Action("GetImage", "Images", new { id = category.ImageID, height = 300})" alt="@category.Name" class="card-main" />
+                <div class="card-title">@Html.DisplayFor(m => category.Name)</div>
+
             </a>
+        }
 
-            <!-- use vw for relative sizes -->
+        <!-- View all card -->
+        <a class="card text-link" id="view-all-card" href="@Url.Action("Index", "Products")">
 
+            <div class="card-main d-flex align-items-center justify-content-center">
+                <div id="view-all">
+                    <i class="bi bi-arrow-right-circle" style="font-size: 5vw; margin-bottom:10%;"></i>
+                    <span style="font-size: 1vw;">View All Products</span>
+                </div>
+            </div>
 
-        </div>
+            <!-- NO FOOTER
+            <div class="card-footer bg-transparent">
+                
+            </div>
+            -->
+    </a>
+
     </div>
-
 
 
 
