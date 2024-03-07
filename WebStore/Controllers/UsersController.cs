@@ -35,7 +35,7 @@ namespace WebStore.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Profile(int userID)
+        public ActionResult UserProfile(int userID)
         {
             User user = _db.Users.SingleOrDefault(u => u.UserID == userID);
             return View("Details", user);
