@@ -255,6 +255,9 @@
     <Content Include="Images\Products\4 _Headphones\21\Bose_Quietcomfort_Ultra-Headphones-03.jpg" />
     <Content Include="Images\Products\4 _Headphones\21\Bose_Quietcomfort_Ultra-Headphones-04.jpg" />
     <Content Include="Images\Products\4 _Headphones\21\Bose_Quietcomfort_Ultra-Headphones-05.jpg" />
+    <Content Include="Images\Promo_Corsair_Banner.png" />
+    <Content Include="Images\Promo_Samsung_Banner.png" />
+    <Content Include="Images\Promo_Sony_Banner.png" />
     <Content Include="Images\TechStoreLogo.png" />
     <Content Include="Images\Users\1\User_Admin.jpg" />
     <Content Include="Images\Users\2\User_Guest.jpg" />

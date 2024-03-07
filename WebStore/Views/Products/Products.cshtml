@@ -8,6 +8,12 @@
 
 <style>
 
+    .col {
+        margin-bottom: 38px;
+    }
+
+
+
     .a-blank {
         color: inherit;
         text-decoration: none;
@@ -18,6 +24,13 @@
             color: #1e9469 !important;
             text-decoration: none !important;
         }
+
+    .card {
+        width: 18rem;
+        margin-right: 5px;
+        background-color: #181a1b;
+        padding: 0;
+    }
 
     .card-text h5 {
         font-size: .875rem;
@@ -48,104 +61,105 @@
         color: white;
     }
 
-    .add-to-cart:hover {
-        background-color: #136144;
-    }
-
-    /* This probably makes some other styles redundant */
-    .text-link {
-        color: inherit;
-        text-decoration: inherit;
-    }
-
-        .text-link:hover {
-            color: #1e9469
+        .add-to-cart:hover {
+            background-color: #136144;
         }
 </style>
 
+<div class="page">
+
+    <h1 class="text-center m-4"><a href="@Url.Action("Index", "Products")" style="text-decoration: none !important; color:white; font-weight:500;">Products</a></h1>
+    <hr class="my-4">
 
 
-<h1 class="text-center m-4"><a href="@Url.Action("Index", "Products")" style="text-decoration: none !important; color:white; font-weight:500;">Products</a></h1>
-<hr class="my-4">
+    @{
+        int chosenCategory = Model.Category != null ? Model.Category.CategoryID : 0;
+        bool sortOrder = true;
+        string searchTerm = Model.SearchPhrase;
+    }
 
+    @if (Model.Category.CategoryID != 0)
+    {
+        <h2 class="text-center m-4">@Model.Category.Name</h2>
+    }
+    else if (Model.SearchPhrase != "")
+    {
+        <h2 class="text-center m-4">Results matching: @searchTerm</h2>
+    }
+    else
+    {
+        <h2 class="text-center m-4">All</h2>
+    }
 
-@{
-    int chosenCategory = Model.Category != null ? Model.Category.CategoryID : 0;
-    bool sortOrder = true;
-    string searchTerm = Model.SearchPhrase;
-}
-
-@if (Model.Category.CategoryID != 0)
-{
-    <h2 class="text-center m-4">@Model.Category.Name</h2>
-}
-else if (Model.SearchPhrase != "")
-{
-    <h2 class="text-center m-4">Results matching: @searchTerm</h2>
-}
-else
-{
-    <h2 class="text-center m-4">All</h2>
-}
-
-
-<a href="@Url.Action("Index", "Products", new {searchPhrase = Model.SearchPhrase, category = Model.Category.CategoryID, sort = sortOrder})">Sort by Price</a>
-
-
-
-
-
-<div class="container-fluid">
-    <div class="row">
-        @foreach (WebStore.Models.Product product in Model.Products)
-        {
-            <div class="card mb-3 position-relative" style="width: 18rem; margin: 0 20px 20px 0; background-color: #181a1b; padding: 0;">
-
-                <div style="height: 300px; background-color: white; position: relative;">
-
-                    <!-- Product image -->
-                    <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
-                        <img src="@Url.Action("GetImage", "Images", new { id = product.DefaultImageID, height = 300, width = 300 })" class="card-img-top" alt="[Product Image]" style="width: 100%; height: 100%; object-fit: cover;" />
-                    </a>
-
-                    <!-- Favourite button -->
-                    <a class="bi-heart position-absolute top-0 end-0 m-3" onclick="handleFavouriteItems(event, @product.ProductID, '@product.Name')"></a>
-
-                </div>
-
-                <div class="card-body">
-
-                    <!-- Product title -->
-                    <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
-                        <h5 class="card-title">@Html.DisplayFor(p => product.Name)</h5>
-                    </a>
-
-                    <!-- Product category -->
-                    <p class="card-text">Category: <a href="@Url.Action("Index", "Products", new { category = product.CategoryID } )">@Html.DisplayFor(p => product.Category.Name)</a></p>
-
-                </div>
-
-                <!-- Price & Cart button -->
-                <div class="card-footer d-flex align-items-center justify-content-between" style="margin: 10px 0;">
-                    <p class="card-text" style="font-weight: bold; font-size: 1.4em; margin-bottom: 0; color: white;">£@Html.DisplayFor(p => product.Price)</p>
-                    <button class="btn btn-success add-to-cart">Add to Cart <i class="bi bi-cart2"></i></button>
-                </div>
-
-            </div>
-        }
+    <div class="dropdown text-end" id="sortby" style="margin-bottom:20px;">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Sort by
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item active" href="#">Default</a></li>
+            <li><a class="dropdown-item" href="@Url.Action("Index", "Products", new {searchPhrase = Model.SearchPhrase, category = Model.Category.CategoryID, sort = sortOrder})">Price: Low to high</a></li>
+            <li><a class="dropdown-item" href="#">Price: High to low</a></li>
+        </ul>
     </div>
+
+
+
+    <div class="container-fluid text-center">
+        <div class="row row-cols-auto">
+            @foreach (WebStore.Models.Product product in Model.Products)
+            {
+                <div class="col">
+                    <div class="card mb-3 position-relative h-100">
+
+                        <div style="height: 300px; background-color: white; position: relative;">
+
+                            <!-- Product image -->
+                            <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
+                                <img src="@Url.Action("GetImage", "Images", new { id = product.DefaultImageID, height = 300, width = 300 })" class="card-img-top" alt="[Product Image]" style="width: 100%; height: 100%; object-fit: cover;" />
+                            </a>
+
+                            <!-- Favourite button -->
+                            <a class="bi-heart position-absolute top-0 end-0 m-3" onclick="handleFavouriteItems(event, @product.ProductID, '@product.Name')"></a>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <!-- Product title -->
+                            <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
+                                <h5 class="card-title">@Html.DisplayFor(p => product.Name)</h5>
+                            </a>
+
+                            <!-- Product category -->
+                            <p class="card-text">Category: <a href="@Url.Action("Index", "Products", new { category = product.CategoryID } )">@Html.DisplayFor(p => product.Category.Name)</a></p>
+
+                        </div>
+
+                        <!-- Price & Cart button -->
+                        <div class="card-footer d-flex align-items-center justify-content-between" style="margin: 10px 0;">
+                            <p class="card-text" style="font-weight: bold; font-size: 1.4em; margin-bottom: 0; color: white;">£@Html.DisplayFor(p => product.Price)</p>
+                            <button class="btn btn-success add-to-cart">Add to Cart <i class="bi bi-cart2"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
 </div>
 
+    <script>
 
-<script>
+        function handleFavouriteItems(event, productID, productName) {
+            var classes = event.currentTarget.classList;
 
-    function handleFavouriteItems(event, productID, productName) {
-        var classes = event.currentTarget.classList;
+            // Fill/unfill heart icon
+            classes.toggle('bi-heart');
+            classes.toggle('bi-heart-fill');
 
-        // Fill/unfill heart icon
-        classes.toggle('bi-heart');
-        classes.toggle('bi-heart-fill');
+            alert(`This would save/favourite the item clicked:\n\n ${productID}: ${productName}`);
+        }
+    </script>
 
-        alert(`This would save/favourite the item clicked:\n\n ${productID}: ${productName}`);
-    }
-</script>
+

@@ -81,12 +81,15 @@ namespace WebStore.Controllers
         {
             ViewModel models = new ViewModel
             {
-                Product = _db.Products.FirstOrDefault(p => p.ProductID == productID)
+                Product = _db.Products.FirstOrDefault(p => p.ProductID == productID),
+                ProductImages = _db.ProductImages
+                    .Where(pi => pi.ProductID == productID)
+                    .ToList()
+                
             };
 
             models.Category = _db.Categories.FirstOrDefault(c => c.CategoryID == models.Product.CategoryID);
 
-            // Maybe just pass in Product?
             return View("ProductDetails", models);
             
         }
