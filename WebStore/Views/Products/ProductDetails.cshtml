@@ -111,7 +111,7 @@
 
             <div class="container d-flex flex-column" id="priceDetails" style="background-color: rgb(48, 48, 48); border: 1px solid black; color: white; width: fit-content">
                 <span class="flex-fill" style="font-weight:800; font-size:1.5rem; margin-right: 10px;">£@Html.DisplayFor(model => model.Product.Price)</span>
-                <button class="btn btn-success add-to-cart mb-3">Buy <i class="bi bi-cart2"></i></button>
+                <button data-cart-user-id="1" data-cart-product-id="@Model.Product.ProductID" class="btn btn-success add-to-cart" onclick="ToggleInCart(event, 1, @Model.Product.ProductID)"><span class="button-text">Add to Cart</span> <i class="bi bi-cart2"></i></button>
             </div>
 
         </div>
@@ -126,3 +126,136 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Product.ProductID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+
+<script>
+
+    function ToggleInCart(event, userID, productID)
+    {
+        var buttonElement = $(event.currentTarget);
+        var buttonText = buttonElement.children('.button-text');
+
+        if (buttonElement.hasClass('in-cart'))
+        // REMOVE FROM CART
+        {
+            $.ajax(
+            {
+                url: "@Url.Action("RemoveFromCart", "UserCarts")",
+                method: "Post",
+                data:
+                {
+                    userID: userID,
+                    productID: productID
+                },
+                success: function (data) {
+                    // Change button to match cart status
+                    buttonText.text("Add to Cart");
+                    buttonElement.removeClass('in-cart');
+                    UpdateCartBadge(userID);
+                },
+                error: function (error) { console.log(`Error removing Product ${productID} from User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
+            });
+        }
+
+        else
+        // ADD TO CART
+        {
+            $.ajax({
+                url: "@Url.Action("AddToCart", "UserCarts")",
+                method: "Post",
+                data:
+                {
+                    userID: userID,
+                    productID: productID,
+                    quantity: 1
+                },
+                success: function (data) {
+                    // Change button to match cart status
+                    buttonText.text("In Cart");
+                    buttonElement.addClass('in-cart');
+                    UpdateCartBadge(userID);
+                },
+                error: function (error) { console.log(`Error adding Product ${productID} to User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
+            });
+        }
+    }
+
+
+    function CheckIfInCart(userID, productID, buttonElement)
+    {
+        var buttonText = buttonElement.children('.button-text');
+
+        $.ajax(
+        {
+            url: "@Url.Action("IsInCart", "UserCarts")",
+            method: "Post",
+            data:
+            {
+                userID: userID,
+                productID: productID
+            },
+            success: function (data)
+            {
+                if (data >= 1)
+                {
+                    console.log(`Product ${productID} was found in User ${userID}\'s cart - updating button.`);
+                    // Change button to match cart status
+                    buttonText.text("In Cart");
+                    buttonElement.addClass('in-cart');
+                }
+
+            },
+            error: function (error) { console.log(`Error checking if Product ${productID} is in User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
+
+        });
+
+    }
+
+    // When the page is rendered
+    $(document).ready
+        (function () {
+            // For each button element with a favourite data attribute
+            $('[data-product-id]').each
+                (function () {
+                    // Extract value of product-id
+                    var productID = $(this).data('product-id');
+                    // Check if the corresponding product is favourited and toggle the button appearance
+                    CheckIfFavourited(1, productID, $(this))
+
+
+                }
+                )
+
+            // For each button element with cart data attributes
+            $('[data-cart-product-id]').each
+                (function () {
+                    // Extract value of product-id
+                    var userID = $(this).data('cart-user-id');
+                    var productID = $(this).data('cart-product-id');
+                    // Check if the corresponding product is favourited and toggle the button appearance
+                    CheckIfInCart(userID, productID, $(this))
+
+
+                }
+                )
+
+        }
+
+    )    // When the page is rendered
+    $(document).ready
+        (function () {
+            // For each button element with cart data attributes
+            $('[data-cart-product-id]').each
+                (function ()
+                {
+                    // Extract value of product-id
+                    var userID = $(this).data('cart-user-id');
+                    var productID = $(this).data('cart-product-id');
+                    // Check if the corresponding product is favourited and toggle the button appearance
+                    CheckIfInCart(userID, productID, $(this))
+
+
+                })
+
+        })
+</script>

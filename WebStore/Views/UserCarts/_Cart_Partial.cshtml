@@ -1,39 +1,96 @@
-﻿@model IEnumerable<WebStore.Models.CartProduct>
+﻿@model WebStore.Models.ViewModel
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Cart.UserCartID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Product.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-        <th></th>
-    </tr>
+<div class="container-fluid" style="width:max-content;">
+    @foreach (WebStore.Models.CartProduct cartProduct in Model.CartProducts)
+    {
+        <div class="card mb-3" style="background-color: transparent; color: white; max-width: 500px; margin-bottom: 10px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <!-- Product image -->
+                    <a href="@Url.Action("Details", "Products", new { productID = cartProduct.Product.ProductID })" class="text-link">
+                        <img src="@Url.Action("GetImage", "Images", new { id = cartProduct.Product.DefaultImageID })" style="padding: 5px; width: 100%;" alt="[Product Image]" />
+                    </a>
+                </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cart.UserCartID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CartProductID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CartProductID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CartProductID })
-        </td>
-    </tr>
-}
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <!-- Product title -->
+                        <a href="@Url.Action("Details", "Products", new { productID = cartProduct.Product.ProductID })" class="text-link">
+                            <h5 class="card-title flex-wrap" style="font-size: 1.2em;">@Html.DisplayFor(p => cartProduct.Product.Name)</h5>
+                        </a>
+                        <div class="d-flex align-content-center">
+                            <p class="card-text" style="font-size: 0.8em; margin-bottom: 0;"><b>Quantity:</b> @Html.DisplayFor(p => cartProduct.Quantity)</p>
+                        </div>
 
-</table>
+                        <div class="container d-flex flex-row">
+                            <div class="container d-flex flex-row" style="margin-top:13px !important; margin-left:100px !important;">
+                                <button class="btn-sm" style="height: 30px; width: 25px;" onclick="EditCartProduct(@cartProduct.CartProductID, @cartProduct.Quantity + 1)">+</button>
+                                <button class="btn-sm" style="height: 30px; width: 25px;" onclick="EditCartProduct(@cartProduct.CartProductID, @cartProduct.Quantity - 1)">-</button>
+                            </div>
+                            <button class="btn btn-danger mt-2" style="width: 100px;" onclick="DeleteCartProduct(@cartProduct.CartProductID)">Remove</button>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+
+                    <p class="card-text d-flex justify-content-end" style="font-weight: bold; font-size: 1em; color: #1e9469;">£@(cartProduct.Product.Price * cartProduct.Quantity)</p>
+                </div>
+
+            </div>
+        </div>
+    }
+    <span style="text-align:center; font-size:1rem; margin-right:20px; color: white;">Total: £@Model.CartProducts.Sum(ci => ci.Product.Price * ci.Quantity)</span>
+</div>
+
+<script>
+
+    function ConfirmOrder(cartTotal)
+    {
+        var itemsList = 'This would make a purchase for items totalling\n\n';
+        itemsList += '£' + cartTotal
+
+        alert(itemsList);
+    }
+
+
+    function DeleteCartProduct(id, refresh=true)
+    {
+        $.ajax({
+            url: "@Url.Action("RemoveFromCart", "UserCarts")",
+            method: "Get",
+            data:
+            {
+                cartProductID: id
+            },
+            success: function (data)
+            {
+                if (refresh) {
+                    location.reload();
+                }
+            },
+            error: function (error) { console.log(`Error:\n\n${JSON.stringify(error) }`); }
+        });
+    }
+
+    function EditCartProduct(id, q, refresh=true)
+    {
+        $.ajax({
+            url: "@Url.Action("EditCartItem", "UserCarts")",
+            method: "Get",
+            data:
+            {
+                cartProductID: id,
+                quantity: q
+            },
+            success: function (data) {
+                if (refresh) {
+                    location.reload();
+                }
+            },
+            error: function (error) { console.log(`Error:\n\n${JSON.stringify(error) }`); }
+        });
+    }
+</script>

@@ -55,6 +55,29 @@ namespace WebStore.Controllers
             }  
         }
 
+        public ActionResult PartialCart(int userID)
+        {
+            UserCart activeCart = _db.UserCarts.FirstOrDefault(cart => cart.UserID == userID
+                                        && cart.Active == true);
+            if (activeCart != null)
+            {
+                ViewModel models = new ViewModel
+                {
+                    CartProducts = _db.CartProducts
+                        .Where(p => p.UserCartID == activeCart.UserCartID)
+                        .Include(p => p.Product)
+                        .ToList()
+                };
+
+                return PartialView("_Cart_Partial", models);
+            }
+            else
+            {
+                Debug.WriteLine($"Error: Could not find an active cart for User {userID}.");
+                return Content("404: Cart not found.");
+            }
+        }
+
         public void AddToCart(int userID, int productID)
         {
             UserCart activeCart = _db.UserCarts.FirstOrDefault(cart => cart.UserID == userID

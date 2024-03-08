@@ -15,62 +15,6 @@
 </style>
 
 
-
-
-<div class="container-fluid">
-        @foreach (WebStore.Models.CartProduct cartProduct in Model.CartProducts)
-        {
-            <div class="card mb-3" style="background-color:rgb(15, 15, 15); max-width: 1000px">
-                <div class="row g-0 flex-nowrap align-content-center">
-                    <div class="col-auto">
-                        <!-- Product image -->
-                        <a href="@Url.Action("Details", "Products", new {productID = cartProduct.Product.ProductID})" class="text-link">
-                            <img src="@Url.Action("GetImage", "Images", new { id = cartProduct.Product.DefaultImageID})" height="100" , width="100" style="padding:5px" alt="[Product Image]" />
-                        </a>
-                    </div>
-
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <!-- Product title -->
-                            <a href="@Url.Action("Details", "Products", new {productID = cartProduct.Product.ProductID})" class="text-link">
-                                <h5 class="card-title flex-wrap">@Html.DisplayFor(p => cartProduct.Product.Name)</h5>
-                            </a>
-                            <div class="d-flex align-content-center">
-                                <p class="card-text"><b>Quantity:</b> @Html.DisplayFor(p => cartProduct.Quantity)</p>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                    <p class="card-text d-flex flex-column justify-content-center" style="width:fit-content; font-weight: bold; font-size: 2em; color: #1e9469;">£@(cartProduct.Product.Price * cartProduct.Quantity)</p>
-
-                </div>
-
-            </div>
-        }
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <table class="table">
     <tr>
         <th>
@@ -91,10 +35,14 @@
     {
         <tr>
             <td>
-                <img src="@Url.Action("GetImage", "Images", new { id = item.Product.DefaultImageID, height = 100, width = 100 })" alt="[Product Image]" />
+                <a href="@Url.Action("Details", "Products", new { productID = item.Product.ProductID })" class="text-link">
+                    <img src="@Url.Action("GetImage", "Images", new { id = item.Product.DefaultImageID })" height="100" , width="100" style="padding:5px" alt="[Product Image]" />
+                </a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Product.Name)
+                <a href="@Url.Action("Details", "Products", new { productID = item.Product.ProductID })" class="text-link">
+                    <h5 class="card-title flex-wrap">@Html.DisplayFor(p => item.Product.Name)</h5>
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
@@ -109,7 +57,7 @@
                         <button class="btn-sm" onclick="EditCartProduct(@item.CartProductID, @item.Quantity + 1)">+</button>
                         <button class="btn-sm mt-2" onclick="EditCartProduct(@item.CartProductID, @item.Quantity - 1)">-</button>
                     </div>
-                    <button class="btn btn-danger mt-2" onclick="DeleteCartProduct(@item.CartProductID)">Delete</button>
+                    <button class="btn btn-danger mt-2" onclick="DeleteCartProduct(@item.CartProductID)">Remove</button>
                 </div>
 
 
@@ -119,12 +67,27 @@
 
 </table>
 
-<span style="text-align:center; font-size:3rem">Total: £@Model.CartProducts.Sum(ci => ci.Product.Price * ci.Quantity)</span>
+<span style="text-align:center; font-size:3rem; margin-right:20px;">Total: £@Model.CartProducts.Sum(ci => ci.Product.Price * ci.Quantity)</span>
+
+
+<button onclick="ConfirmOrder(@Model.CartProducts.Sum(ci => ci.Product.Price * ci.Quantity))">Place Order</button>
+
+<span>with Instant Pay</span>
 
 
 
 
 <script>
+
+    function ConfirmOrder(cartTotal)
+    {
+        var itemsList = 'This would make a purchase for items totalling\n\n';
+        itemsList += '£' + cartTotal
+
+        alert(itemsList);
+    }
+
+
     function DeleteCartProduct(id, refresh=true)
     {
         $.ajax({
