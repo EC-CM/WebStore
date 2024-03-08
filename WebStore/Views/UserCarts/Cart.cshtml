@@ -1,0 +1,165 @@
+﻿@model WebStore.Models.ViewModel
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Your Cart</h2>
+
+<style>
+
+    th, td {
+        color: white;
+    }
+</style>
+
+
+
+
+<div class="container-fluid">
+        @foreach (WebStore.Models.CartProduct cartProduct in Model.CartProducts)
+        {
+            <div class="card mb-3" style="background-color:rgb(15, 15, 15); max-width: 1000px">
+                <div class="row g-0 flex-nowrap align-content-center">
+                    <div class="col-auto">
+                        <!-- Product image -->
+                        <a href="@Url.Action("Details", "Products", new {productID = cartProduct.Product.ProductID})" class="text-link">
+                            <img src="@Url.Action("GetImage", "Images", new { id = cartProduct.Product.DefaultImageID})" height="100" , width="100" style="padding:5px" alt="[Product Image]" />
+                        </a>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <!-- Product title -->
+                            <a href="@Url.Action("Details", "Products", new {productID = cartProduct.Product.ProductID})" class="text-link">
+                                <h5 class="card-title flex-wrap">@Html.DisplayFor(p => cartProduct.Product.Name)</h5>
+                            </a>
+                            <div class="d-flex align-content-center">
+                                <p class="card-text"><b>Quantity:</b> @Html.DisplayFor(p => cartProduct.Quantity)</p>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <p class="card-text d-flex flex-column justify-content-center" style="width:fit-content; font-weight: bold; font-size: 2em; color: #1e9469;">£@(cartProduct.Product.Price * cartProduct.Quantity)</p>
+
+                </div>
+
+            </div>
+        }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Image
+        </th>
+        <th>
+            Product
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartProducts.FirstOrDefault().Quantity)
+        </th>
+        <th>
+            Price (Total)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.CartProducts)
+    {
+        <tr>
+            <td>
+                <img src="@Url.Action("GetImage", "Images", new { id = item.Product.DefaultImageID, height = 100, width = 100 })" alt="[Product Image]" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                £@(item.Product.Price * item.Quantity)
+            </td>
+
+            <td>
+                <div class="container d-flex flex-row">
+                    <div class="container d-flex flex-column" style="width: 50px;">
+                        <button class="btn-sm" onclick="EditCartProduct(@item.CartProductID, @item.Quantity + 1)">+</button>
+                        <button class="btn-sm mt-2" onclick="EditCartProduct(@item.CartProductID, @item.Quantity - 1)">-</button>
+                    </div>
+                    <button class="btn btn-danger mt-2" onclick="DeleteCartProduct(@item.CartProductID)">Delete</button>
+                </div>
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+<span style="text-align:center; font-size:3rem">Total: £@Model.CartProducts.Sum(ci => ci.Product.Price * ci.Quantity)</span>
+
+
+
+
+<script>
+    function DeleteCartProduct(id, refresh=true)
+    {
+        $.ajax({
+            url: "@Url.Action("RemoveFromCart", "UserCarts")",
+            method: "Get",
+            data:
+            {
+                cartProductID: id
+            },
+            success: function (data)
+            {
+                if (refresh) {
+                    location.reload();
+                }
+            },
+            error: function (error) { console.log(`Error:\n\n${JSON.stringify(error) }`); }
+        });
+    }
+
+    function EditCartProduct(id, q, refresh=true)
+    {
+        $.ajax({
+            url: "@Url.Action("EditCartItem", "UserCarts")",
+            method: "Get",
+            data:
+            {
+                cartProductID: id,
+                quantity: q
+            },
+            success: function (data) {
+                if (refresh) {
+                    location.reload();
+                }
+            },
+            error: function (error) { console.log(`Error:\n\n${JSON.stringify(error) }`); }
+        });
+    }
+</script>

@@ -141,7 +141,7 @@
                         <!-- Price & Cart button -->
                         <div class="card-footer d-flex align-items-center justify-content-between" style="margin: 10px 0;">
                             <p class="card-text" style="font-weight: bold; font-size: 1.4em; margin-bottom: 0; color: white;">£@Html.DisplayFor(p => product.Price)</p>
-                            <button data-cart-user-id="1" data-cart-product-id="@product.ProductID" class="btn btn-success add-to-cart" onclick="ToggleInCart(event, 1, @product.ProductID)"><span class="button-text">Add to Cart</span> <i class="bi bi-cart2"></i></button> <!-- View "In Cart" links to cart page -->
+                            <button data-cart-user-id="1" data-cart-product-id="@product.ProductID" class="btn btn-success add-to-cart" onclick="ToggleInCart(event, 1, @product.ProductID)"><span class="button-text">Add to Cart</span> <i class="bi bi-cart2"></i></button>
                         </div>
 
                     </div>
@@ -230,83 +230,34 @@
 
     }
 
-
-
     function ToggleInCart(event, userID, productID)
     {
         var buttonElement = $(event.currentTarget);
-
         var buttonText = buttonElement.children('.button-text');
 
         if (buttonElement.hasClass('in-cart'))
         // REMOVE FROM CART
         {
-            var cartQuantity = 0;
-
+            console.log("remove");
             $.ajax(
             {
-                url: "@Url.Action("IsInCart", "UserCarts")",
+                url: "@Url.Action("RemoveFromCart", "UserCarts")",
                 method: "Post",
                 data:
                 {
                     userID: userID,
                     productID: productID
                 },
-                success: function (data)
-                {
-                    cartQuantity = parseInt(data);
+                success: function (data) {
+                    // Change button to match cart status
+                    buttonText.text("Add to Cart");
+                    buttonElement.removeClass('in-cart');
+                    UpdateCartBadge(userID);
                 },
-                error: function (error) { console.log(`Error checking if Product ${productID} is in User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
-
-                });
-
-
-            if (cartQuantity > 1)
-            {
-                $.ajax(
-                {
-                    url: "@Url.Action("EditCartItem", "UserCarts")",
-                    method: "Post",
-                    data:
-                    {
-                        userID: userID,
-                        productID: productID,
-                        quantity: cartQuantity - 1
-                    },
-                    success: function (data)
-                    {},
-                    error: function (error) { console.log(`Error removing Product ${productID} from User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
-                });
-
-            }
-            else if (cartQuantity == 1)
-            {
-                $.ajax(
-                {
-                    url: "@Url.Action("RemoveFromCart", "UserCarts")",
-                    method: "Post",
-                    data:
-                    {
-                        userID: userID,
-                        productID: productID
-                    },
-                    success: function (data)
-                    {
-                        // Change button to match cart status
-                        buttonText.text("In Cart");
-                        buttonText.removeClass('in-cart');
-                    },
-                    error: function (error) { console.log(`Error removing Product ${productID} from User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
-                });
-            }
-            else
-            {
-                // Change button to match cart status (Unlikely to happen?)
-                buttonText.text("In Cart");
-                buttonText.removeClass('in-cart');
-            }
-
+                error: function (error) { console.log(`Error removing Product ${productID} from User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
+            });
         }
+
         else
         // ADD TO CART
         {
@@ -322,12 +273,14 @@
                 success: function (data) {
                     // Change button to match cart status
                     buttonText.text("In Cart");
-                    buttonText.addClass('in-cart');
+                    buttonElement.addClass('in-cart');
+                    UpdateCartBadge(userID);
                 },
-                error: function (error) { console.log(`Error adding Product ${productID} to User ${userID}\'s cart.\n\n${JSON.stringify(error) }`); }
+                error: function (error) { console.log(`Error adding Product ${productID} to User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
             });
         }
     }
+
 
     function CheckIfInCart(userID, productID, buttonElement)
     {
@@ -349,7 +302,7 @@
                     console.log(`Product ${productID} was found in User ${userID}\'s cart - updating button.`);
                     // Change button to match cart status
                     buttonText.text("In Cart");
-                    buttonText.addClass('in-cart');
+                    buttonElement.addClass('in-cart');
                 }
 
             },

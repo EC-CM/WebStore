@@ -27,12 +27,17 @@ namespace WebStore.Models
         public List<Image> Images { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public List<UserListItem> UserListItems { get; set; }
+        public List<UserCart> UserCarts { get; set; }
+        public List<CartProduct> CartProducts { get; set; }
+
 
         public Category Category { get; set; }
         public User User { get; set; }
         public Product Product { get; set; }
         public Image Image { get; set; }
         public ProductImage ProductImage { get; set; }
+        public UserCart UserCart { get; set; }
+        public CartProduct CartProduct { get; set; }
 
         public String SearchPhrase { get; set; }
 
@@ -49,12 +54,16 @@ namespace WebStore.Models
             List<Image> images = null,
             List<ProductImage> productImages = null,
             List<UserListItem> userListItems = null,
+            List<UserCart> userCarts = null,
+            List<CartProduct> cartProducts = null,
 
             Category category = null,
             User user = null,
             Product product = null,
             Image image = null,
             ProductImage productImage = null,
+            UserCart userCart = null,
+            CartProduct cartProduct = null,
             
             string searchPhrase = "",
             
@@ -67,6 +76,8 @@ namespace WebStore.Models
             Images = images ?? new List<Image>();
             ProductImages = productImages ?? new List<ProductImage>();
             UserListItems = userListItems ?? new List<UserListItem>();
+            UserCarts = userCarts ?? new List<UserCart>();
+            CartProducts = cartProducts ?? new List<CartProduct>();
 
             Category = category ?? new Category();
             User = user ?? new User();

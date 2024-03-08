@@ -127,6 +127,14 @@
 
             <a href="@Url.Action("SavedList", "Users", new {userID = 1})" class="bi bi-bookmark-heart" style="margin-right: 15px; color: white; font-size: 2.5rem;" title="View Favourites"></a>
 
+            <a href="@Url.Action("Cart", "UserCarts", new {userID = 1})" class="bi bi-cart3 position-relative" style="margin-right: 30px; color: white; font-size: 2.5rem;" title="View Cart">
+                <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem; margin-top: 20%; margin-left: 10%;">
+                    @Html.Action("TotalItemsInCart", "UserCarts", new { userID = 1 })
+                    <span class="visually-hidden">items in cart</span>
+                </span>
+            </a>
+
+
             <div class="dropdown">
                 <a href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <!-- Migrate over to using GetImage - this file needs a model to reference the user's login session -->
@@ -136,6 +144,7 @@
                     <!-- Add dropdown items as needed -->
                     <li><a class="dropdown-item" href="@Url.Action("UserProfile", "Users", new { userID = 1 })">Profile</a></li>
                     <li><a class="dropdown-item" href="@Url.Action("Index", "Users")">View All Users</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Cart", "UserCarts", new {userID = 1})">View Cart</a></li>
                     <li><a class="dropdown-item" href="@Url.Action("SavedList", "Users", new {userID = 1})">Your Favourites</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#" onclick="alert('Logging you out...')">Logout</a></li>
@@ -145,3 +154,24 @@
 
     </div>
 </nav>
+
+<script>
+
+    function GetCartItemTotal(userID) {
+        return $.ajax({
+            url: "@Url.Action("TotalItemsInCart", "UserCarts")" + "?userID=" + userID,
+            method: "GET"
+        });
+    }
+
+    function UpdateCartBadge(userID) {
+        GetCartItemTotal(userID).done(
+            function (data)
+            {
+                $('#cart-count').text(parseInt(data));
+        }).fail(function (error) {
+            console.log("Error updating cart badge: " + JSON.stringify(error));
+        });
+    }
+
+</script>
