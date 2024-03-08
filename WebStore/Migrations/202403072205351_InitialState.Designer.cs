@@ -7,13 +7,13 @@ namespace WebStore.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class UserRoleAddressPhoneAdded : IMigrationMetadata
+    public sealed partial class InitialState : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UserRoleAddressPhoneAdded));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialState));
         
         string IMigrationMetadata.Id
         {
-            get { return "202403030807415_User-RoleAddressPhone-Added"; }
+            get { return "202403072205351_InitialState"; }
         }
         
         string IMigrationMetadata.Source

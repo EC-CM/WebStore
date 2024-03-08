@@ -46,6 +46,8 @@
     .bi-heart {
         color: black;
         text-decoration: none !important;
+        background-color: transparent;
+        border: none;
         /* <i class="bi bi-heartbreak-fill"></i> */
     }
 
@@ -53,6 +55,8 @@
         .bi-heart-fill {
             color: red;
             text-decoration: none !important;
+            background-color: transparent;
+            border: none;
         }
 
     .add-to-cart {
@@ -72,11 +76,7 @@
     <hr class="my-4">
 
 
-    @{
-        int chosenCategory = Model.Category != null ? Model.Category.CategoryID : 0;
-        bool sortOrder = true;
-        string searchTerm = Model.SearchPhrase;
-    }
+
 
     @if (Model.Category.CategoryID != 0)
     {
@@ -84,7 +84,7 @@
     }
     else if (Model.SearchPhrase != "")
     {
-        <h2 class="text-center m-4">Results matching: @searchTerm</h2>
+        <h2 class="text-center m-4">Results matching: @Model.SearchPhrase</h2>
     }
     else
     {
@@ -93,12 +93,14 @@
 
     <div class="dropdown text-end" id="sortby" style="margin-bottom:20px;">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Sort by
+            Sort by @Model.Sort @(Model.Sort != WebStore.Models.ViewModel.SortBy.Default ? $"({Model.Order})" : "")
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item active" href="#">Default</a></li>
-            <li><a class="dropdown-item" href="@Url.Action("Index", "Products", new {searchPhrase = Model.SearchPhrase, category = Model.Category.CategoryID, sort = sortOrder})">Price: Low to high</a></li>
-            <li><a class="dropdown-item" href="#">Price: High to low</a></li>
+            <li><a class="dropdown-item active" href="@Url.Action("Index", "Products", new {searchPhrase = Model.SearchPhrase, category = Model.Category.CategoryID, sort = WebStore.Models.ViewModel.SortBy.Default})">Default</a></li>
+            <li><a class="dropdown-item" href="@Url.Action("Index", "Products", new {searchPhrase = Model.SearchPhrase, category = Model.Category.CategoryID, sort = WebStore.Models.ViewModel.SortBy.Price, sortOrder = WebStore.Models.ViewModel.SortOrder.Ascending})">Price: Low to high</a></li>
+            <li><a class="dropdown-item" href="@Url.Action("Index", "Products", new {searchPhrase = Model.SearchPhrase, category = Model.Category.CategoryID, sort = WebStore.Models.ViewModel.SortBy.Price, sortOrder = WebStore.Models.ViewModel.SortOrder.Descending})">Price: High to low</a></li>
+            <li><a class="dropdown-item" href="@Url.Action("Index", "Products", new {searchPhrase = Model.SearchPhrase, category = Model.Category.CategoryID, sort = WebStore.Models.ViewModel.SortBy.Name, sortOrder = WebStore.Models.ViewModel.SortOrder.Ascending})">Name: A-Z</a></li>
+            <li><a class="dropdown-item" href="@Url.Action("Index", "Products", new {searchPhrase = Model.SearchPhrase, category = Model.Category.CategoryID, sort = WebStore.Models.ViewModel.SortBy.Name, sortOrder = WebStore.Models.ViewModel.SortOrder.Descending})">Name: Z-A</a></li>
         </ul>
     </div>
 
@@ -119,7 +121,17 @@
                             </a>
 
                             <!-- Favourite button -->
-                            <a class="bi-heart position-absolute top-0 end-0 m-3" onclick="handleFavouriteItems(event, @product.ProductID, '@product.Name')"></a>
+                            <!-- NOTE: A check for existing favourited items will need to be done -->
+
+                            @if (true)
+                            {
+                                <button data-product-id="@product.ProductID" class="bi-heart position-absolute top-0 end-0 m-3" onclick="ToggleFavourite(event, @product.ProductID, '@product.Name')"></button>
+                            }
+                            else
+                            {
+                                <button data-product-id="@product.ProductID" class="bi-heart-fill position-absolute top-0 end-0 m-3" onclick="ToggleFavourite(event, @product.ProductID, '@product.Name')"></button>
+                            }
+
 
                         </div>
 
@@ -149,17 +161,105 @@
 
 </div>
 
-    <script>
+<script>
 
-        function handleFavouriteItems(event, productID, productName) {
-            var classes = event.currentTarget.classList;
+    function ToggleFavourite(event, productID, productName)
+    {
+        //var classes = event.currentTarget.classList;
+        var buttonElement = $(event.currentTarget);
 
-            // Fill/unfill heart icon
-            classes.toggle('bi-heart');
-            classes.toggle('bi-heart-fill');
+        if (buttonElement.hasClass('bi-heart'))
+        // ADD NEW FAVOURITE
+        {
+            $.ajax({
+                url: "@Url.Action("AddFavourite", "Users")",
+                method: "Post",
+                data:
+                {
+                    userID: 1,
+                    productID: productID
+                },
+                success: function (data) {
+                    //alert("Item added to favourites.");
 
-            alert(`This would save/favourite the item clicked:\n\n ${productID}: ${productName}`);
+                    // Fill/unfill heart icon
+                    buttonElement.toggleClass('bi-heart bi-heart-fill');
+                },
+                error: function (error) { console.log(`Error adding Product ${productID} to User ${userID}\'s favourites.\n\n${JSON.stringify(error) }`); }
+            });
         }
-    </script>
+        // NOTE: Cannot easily change default focus from OK to Cancel
+        else if (buttonElement.hasClass('bi-heart-fill') && window.confirm(`Remove ${productName} from favourites?`))
+        // REMOVE FAVOURITE
+        {
+            $.ajax(
+            {
+                url: "@Url.Action("RemoveFavourite", "Users")",
+                method: "Post",
+                data:
+                {
+                    userID: 1,
+                    productID: productID
+                },
+                success: function (data) {
+                    //alert("Item removed from favourites.");
+
+                    // Fill/unfill heart icon
+                    buttonElement.toggleClass('bi-heart bi-heart-fill');
+                },
+                    error: function (error) { console.log(`Error removing Product ${productID} from User ${userID}\'s favourites.\n\n${JSON.stringify(error)}`); }
+            });
+        }
+    }
+
+    function CheckIfFavourited(userID, productID, buttonElement)
+    {
+        $.ajax(
+        {
+            url: "@Url.Action("IsFavourited", "Users")",
+            method: "Post",
+            data:
+            {
+                userID: 1,
+                productID: productID
+            },
+            success: function (data) 
+            {         
+                if (data === "True")
+                {
+                    console.log(`Product ${productID} was found in User ${userID}\'s favourites - updating button.`);
+                    // Change button to match favourited status
+                    buttonElement.addClass('bi-heart-fill');
+                    buttonElement.removeClass('bi-heart');
+                }
+
+            },
+                error: function (error) { console.log(`Error checking if Product ${productID} is in User ${userID}\'s favourites.\n\n${JSON.stringify(error)}`); }
+        });
+
+    }
+
+    // When the page is rendered
+    $(document).ready
+    (   function ()
+    {
+            // For each button element with a data-product-id attribute
+            $('[data-product-id]').each
+            (   function ()
+            {
+                    // Extract value of product-id
+                    var productID = $(this).data('product-id');
+                    // Check if the corresponding product is favourited and toggle the button appearance
+                    CheckIfFavourited(1, productID, $(this))    
+
+
+                }
+            )
+
+        }
+
+    )
+
+</script>
 
 

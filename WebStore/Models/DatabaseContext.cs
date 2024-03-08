@@ -17,6 +17,8 @@ namespace WebStore.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
 
+        public DbSet<UserListItem> UserListItems { get; set; }
+
 
         // Constructor to specify connection string
         public DatabaseContext() : base(@"Data Source=(localdb)\MSSQLLocalDB;" +

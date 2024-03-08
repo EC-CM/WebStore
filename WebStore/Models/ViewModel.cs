@@ -7,8 +7,18 @@ namespace WebStore.Models
 {
     public class ViewModel
     {
-        // Is a single element property needed?
-        // Maybe a list of strings also for extra data?
+        public enum SortBy
+        {
+            Default,
+            Price,
+            Name
+        }
+
+        public enum SortOrder
+        {
+            Ascending,
+            Descending
+        }
 
         public List<Category> Categories { get; set; }
         public List<User> Users { get; set; }
@@ -23,6 +33,10 @@ namespace WebStore.Models
         public ProductImage ProductImage { get; set; }
 
         public String SearchPhrase { get; set; }
+
+        public SortBy Sort { get; set; }
+        public SortOrder Order { get; set; }
+
 
         public ViewModel
         // Allows for any combination of models to be passed in
@@ -39,7 +53,10 @@ namespace WebStore.Models
             Image image = null,
             ProductImage productImage = null,
             
-            string searchPhrase = "")
+            string searchPhrase = "",
+            
+            SortBy sort = SortBy.Default,
+            SortOrder order = SortOrder.Ascending)
         {
             Categories = categories ?? new List<Category>();
             Users = users ?? new List<User>();
@@ -54,6 +71,9 @@ namespace WebStore.Models
             ProductImage = productImage ?? new ProductImage();
 
             SearchPhrase = searchPhrase;
+
+            Sort = sort;
+            Order = order;
         }
     }
 }

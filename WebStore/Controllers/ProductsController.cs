@@ -40,7 +40,7 @@ namespace WebStore.Controllers
 
 
         // GET: Products
-        public ActionResult Index(string searchPhrase = null, int category = 0, bool sort = false)
+        public ActionResult Index(string searchPhrase = null, int category = 0, ViewModel.SortBy sort = ViewModel.SortBy.Default, ViewModel.SortOrder sortOrder = ViewModel.SortOrder.Ascending)
         {   // Note: URL params = ?var, so should maybe be descriptive.
             // Change view to grid/list/compact list
 
@@ -64,17 +64,11 @@ namespace WebStore.Controllers
             else
             { models.Categories = _db.Categories.ToList(); }
 
-            if (sort)
-            { models = Sort(models); }
+            if (sort != ViewModel.SortBy.Default)
+            { models = Sort(models, sort, sortOrder); }
 
             return View("Products", models);
         }
-
-        public ActionResult Products()
-        {
-            return RedirectToAction("Index");
-        }
-
 
 
         public ActionResult Details(int productID = 0)
@@ -84,11 +78,18 @@ namespace WebStore.Controllers
                 Product = _db.Products.FirstOrDefault(p => p.ProductID == productID),
                 ProductImages = _db.ProductImages
                     .Where(pi => pi.ProductID == productID)
-                    .ToList()
-                
+                    .ToList()                
             };
-
-            models.Category = _db.Categories.FirstOrDefault(c => c.CategoryID == models.Product.CategoryID);
+            try
+            {
+                models.Category = _db.Categories.FirstOrDefault(c => c.CategoryID == models.Product.CategoryID);
+            }
+            catch (System.Reflection.TargetException)
+            {
+                // Handle going to Details page with no ProductID.
+                return RedirectToAction("Index");
+            }
+            
 
             return View("ProductDetails", models);
             
@@ -161,10 +162,34 @@ namespace WebStore.Controllers
             return vm;
         }
 
-        public ViewModel Sort(ViewModel vm)
+        public ViewModel Sort(ViewModel vm, ViewModel.SortBy sort, ViewModel.SortOrder sortOrder)
         {
-            vm.Products = vm.Products.OrderBy(product => product.Price).ToList();
+            vm.Sort = sort;
+            vm.Order =sortOrder;
+
+            switch (sort)
+            {
+                case ViewModel.SortBy.Price:
+                    vm.Products = vm.Products.OrderBy(product => product.Price).ToList();
+                    break;
+
+                case ViewModel.SortBy.Name:
+                    vm.Products = vm.Products.OrderBy(product => product.Name).ToList();
+                    break;
+
+                default: break;
+            }
+
+            if (sortOrder == ViewModel.SortOrder.Descending)
+            {
+                vm.Products.Reverse();
+            }
+
             return vm;
         }
+
+        // Manage function name not matching view name (when running via view in IIS Express).
+        public ActionResult Products() { return RedirectToAction("Index"); }
+        public ActionResult ProductDetails() { return RedirectToAction("Details"); }
     }
 }

@@ -61,6 +61,22 @@
                 .Index(t => t.CategoryID);
             
             CreateTable(
+                "dbo.UserListItems",
+                c => new
+                    {
+                        UserListItemID = c.Int(nullable: false, identity: true),
+                        UserID = c.Int(nullable: false),
+                        ProductID = c.Int(nullable: false),
+                        Notes = c.String(maxLength: 50),
+                        Timestamp = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.UserListItemID)
+                .ForeignKey("dbo.Products", t => t.ProductID, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserID, cascadeDelete: true)
+                .Index(t => t.UserID)
+                .Index(t => t.ProductID);
+            
+            CreateTable(
                 "dbo.Users",
                 c => new
                     {
@@ -70,6 +86,9 @@
                         PasswordHash = c.String(),
                         Forename = c.String(),
                         Surname = c.String(),
+                        PhoneNumber = c.String(),
+                        Address = c.String(),
+                        Role = c.Int(nullable: false),
                         ProfilePictureID = c.Int(),
                     })
                 .PrimaryKey(t => t.UserID)
@@ -80,17 +99,22 @@
         
         public override void Down()
         {
+            DropForeignKey("dbo.UserListItems", "UserID", "dbo.Users");
             DropForeignKey("dbo.Users", "ProfilePictureID", "dbo.Images");
+            DropForeignKey("dbo.UserListItems", "ProductID", "dbo.Products");
             DropForeignKey("dbo.ProductImages", "ProductID", "dbo.Products");
             DropForeignKey("dbo.Products", "CategoryID", "dbo.Categories");
             DropForeignKey("dbo.ProductImages", "ImageID", "dbo.Images");
             DropForeignKey("dbo.Categories", "ImageID", "dbo.Images");
             DropIndex("dbo.Users", new[] { "ProfilePictureID" });
+            DropIndex("dbo.UserListItems", new[] { "ProductID" });
+            DropIndex("dbo.UserListItems", new[] { "UserID" });
             DropIndex("dbo.Products", new[] { "CategoryID" });
             DropIndex("dbo.ProductImages", new[] { "ImageID" });
             DropIndex("dbo.ProductImages", new[] { "ProductID" });
             DropIndex("dbo.Categories", new[] { "ImageID" });
             DropTable("dbo.Users");
+            DropTable("dbo.UserListItems");
             DropTable("dbo.Products");
             DropTable("dbo.ProductImages");
             DropTable("dbo.Images");

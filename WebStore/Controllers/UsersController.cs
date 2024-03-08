@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,17 +31,78 @@ namespace WebStore.Controllers
             return View("Users", users);
         }
 
-        public ActionResult Users()
-        {
-            return RedirectToAction("Index");
-        }
-
         public ActionResult UserProfile(int userID)
         {
             User user = _db.Users.SingleOrDefault(u => u.UserID == userID);
             return View("Details", user);
         }
 
+        public ActionResult SavedList (int userID) 
+        {   // Consistency with UserListItem, SavedList, "Favourites"?
+            // First two are related, and this approach allows for future name changes ("Your Saved Items", "Your Favourites", "Your Bookmarks"...etc)
+            ViewModel models = new ViewModel
+            {
+                User = _db.Users.SingleOrDefault(u => u.UserID == userID),
+                Products = _db.Products
+                    .Where(product => _db.UserListItems
+                        .Any(listItem => listItem.UserID == userID // Only UserListItems matching User
+                            && listItem.ProductID == product.ProductID)) // Only Products matching the products in that User's list
+                    .ToList()
+            };
+
+            return View("SavedList", models);
+        }
+
+        public void AddFavourite(int userID, int productID, string notes="")
+        {
+            bool itemExists = _db.UserListItems.Any(item => item.UserID == userID 
+                                                    && item.ProductID == productID);
+
+            if (!itemExists)
+            {
+                UserListItem newItem = new UserListItem
+                {
+                    UserID = userID,
+                    ProductID = productID,
+                    Notes = notes,
+                    // Timestamp set automatically
+                };
+
+                _db.UserListItems.Add(newItem);
+                _db.SaveChanges();
+            }
+            else
+            {
+                Debug.WriteLine($"Item already favourited by user {userID} ({productID}) - ignoring.");
+            }
+           
+        }
+
+        public void RemoveFavourite(int userID, int productID)
+        {
+            // Find the UserListItem to remove
+            var userListItemToRemove = _db.UserListItems.FirstOrDefault(item => item.UserID == userID && item.ProductID == productID);
+
+            if (userListItemToRemove != null)
+            {
+                // Remove the UserListItem from the database
+                _db.UserListItems.Remove(userListItemToRemove);
+                //_db.Entry(userListItemToRemove).State = EntityState.Deleted;
+                _db.SaveChanges();
+            }
+            else
+            {
+                Debug.WriteLine($"Product {productID} was not found in User {userID}'s favourites - ignoring.");
+            }
+        }
+
+        public bool IsFavourited(int userID, int productID)
+        {
+            return _db.UserListItems.Any(item => item.UserID == userID && item.ProductID == productID);
+        }
+
+        // Manage function name not matching view name (when running via view in IIS Express).
+        public ActionResult Users() { return RedirectToAction("Index"); }
 
         /*
         public ActionResult Create()

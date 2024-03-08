@@ -50,8 +50,8 @@
 
             context.Users.AddOrUpdate(
                 u => u.Username,
-                new User { Username = "Admin", EmailAddress = "admin@techstore.com", PasswordHash = "", Forename = "Administrator", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Admin.jpg"), Role = "Admin" },
-                new User { Username = "Guest", EmailAddress = "guest@techstore.com", PasswordHash = "", Forename = "Guest", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Guest.jpg"), Role = "Guest" }//,
+                new User { Username = "Admin", EmailAddress = "admin@techstore.com", PasswordHash = "", Forename = "Administrator", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Admin.jpg"), Role = User.UserRole.Admin },
+                new User { Username = "Guest", EmailAddress = "guest@techstore.com", PasswordHash = "", Forename = "Guest", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Guest.jpg"), Role = User.UserRole.Guest }//,
                 //new User { Username = "BenjaminButton", EmailAddress = "benjamin.button@techstore.com", PasswordHash = "", Forename = "Benjamin", Surname = "Button", ProfilePictureID = GetImageIDFromName(context, "TechStoreLogo.png"), Role = "User" }
                 );
             context.SaveChanges();

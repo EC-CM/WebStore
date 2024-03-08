@@ -12,6 +12,13 @@ namespace WebStore.Models
 {
     public class User
     {
+        public enum UserRole
+        {
+            Admin,
+            User,
+            Guest
+        }
+
         [Key]
         public int UserID { get; set; }
         public string Username { get; set; }
@@ -23,7 +30,7 @@ namespace WebStore.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
 
-        public string Role { get; set; }
+        public UserRole Role { get; set; }
 
         public int? ProfilePictureID { get; set; }    // RENAME TO ProfileImage
         [ForeignKey("ProfilePictureID")]
@@ -36,11 +43,11 @@ namespace WebStore.Models
             PasswordHash = "";
             Forename = "";
             Surname = "";
-            Role = "Guest";
+            Role = UserRole.Guest;
             ProfilePictureID = null;
         }
 
-        public User(int userID, string username, string emailAddress, string passwordHash, string forename, string surname, int? profilePictureID=null, string role="User")
+        public User(int userID, string username, string emailAddress, string passwordHash, string forename, string surname, int? profilePictureID=null, UserRole role=UserRole.User)
         {
             UserID = userID;
             Username = username;
