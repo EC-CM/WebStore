@@ -134,32 +134,34 @@
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\UserCartsController.cs" />
+    <Compile Include="Controllers\UserLoginsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202403072205351_InitialState.cs" />
-    <Compile Include="Migrations\202403072205351_InitialState.Designer.cs">
-      <DependentUpon>202403072205351_InitialState.cs</DependentUpon>
+    <Compile Include="Migrations\202403082044308_InitialState.cs" />
+    <Compile Include="Migrations\202403082044308_InitialState.Designer.cs">
+      <DependentUpon>202403082044308_InitialState.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202403080506173_Carts.cs" />
-    <Compile Include="Migrations\202403080506173_Carts.Designer.cs">
-      <DependentUpon>202403080506173_Carts.cs</DependentUpon>
+    <Compile Include="Migrations\202403082135161_userchanges.cs" />
+    <Compile Include="Migrations\202403082135161_userchanges.Designer.cs">
+      <DependentUpon>202403082135161_userchanges.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartProduct.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductImage.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserCart.cs" />
     <Compile Include="Models\UserListItem.cs" />
+    <Compile Include="Models\UserLoginSession.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ImageService.cs" />
-    <Compile Include="Services\PasswordHasher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -308,9 +310,9 @@
     <Content Include="Views\Products\ProductDetails.cshtml" />
     <Content Include="Views\Users\SavedList.cshtml" />
     <Content Include="Views\UserCarts\Cart.cshtml" />
-    <Content Include="Views\Users\Register.cshtml" />
-    <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\UserLogins\Register.cshtml" />
     <Content Include="Views\UserCarts\_Cart_Partial.cshtml" />
+    <Content Include="Views\UserLogins\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -346,11 +348,11 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202403072205351_InitialState.resx">
-      <DependentUpon>202403072205351_InitialState.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202403082044308_InitialState.resx">
+      <DependentUpon>202403082044308_InitialState.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202403080506173_Carts.resx">
-      <DependentUpon>202403080506173_Carts.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202403082135161_userchanges.resx">
+      <DependentUpon>202403082135161_userchanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -21,9 +21,15 @@ namespace WebStore.Models
 
         [Key]
         public int UserID { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string Username { get; set; }
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string EmailAddress { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
         public string PasswordHash { get; set; }
         public string Forename { get; set; }
         public string Surname {  get; set; }
@@ -38,10 +44,11 @@ namespace WebStore.Models
 
         public User() 
         {
-            Username = "";
+            UserID = 0;
+            Username = "Guest";
             EmailAddress = "";
             PasswordHash = "";
-            Forename = "";
+            Forename = "Guest";
             Surname = "";
             Role = UserRole.Guest;
             ProfilePictureID = null;

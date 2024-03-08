@@ -21,6 +21,8 @@ namespace WebStore.Models
         public DbSet<UserCart> UserCarts { get; set; }
         public DbSet<CartProduct> CartProducts { get; set; }
 
+        public DbSet<UserLoginSession> UserLoginSessions { get; set; }
+
 
         // Constructor to specify connection string
         public DatabaseContext() : base(@"Data Source=(localdb)\MSSQLLocalDB;" +

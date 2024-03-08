@@ -1,0 +1,51 @@
+﻿@model WebStore.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main aria-labelledby="title">
+
+    <h2 id="title">@ViewBag.Title.</h2>
+    
+    <div class="col-md-8">
+
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "UserLogins", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <!-- Username -->
+                <div class="row">
+                    @Html.LabelFor(model => model.Username)
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Username)
+                        @Html.ValidationMessageFor(model => model.Username, "")
+                    </div>
+                </div>
+
+                <!-- Password (pre-hash) -->
+                <div class="row">
+                    @Html.LabelFor(model => model.Password)
+                    <div class="col-md-10">
+                        @Html.PasswordFor(model => model.Password)
+                        @Html.ValidationMessageFor(model => model.Password, "")
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="row">
+                    <div class="offset-md-2 col-md-10">
+                        <input type="submit" value="Log in" class="btn btn-outline-dark" />
+                    </div>
+                </div>
+
+                <!-- Call Register() action -->
+                <p>@Html.ActionLink("Register as a new user", "Register")</p>
+            }
+        </section>
+
+    </div>
+
+</main>

@@ -7,13 +7,13 @@ namespace WebStore.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class Carts : IMigrationMetadata
+    public sealed partial class userchanges : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Carts));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(userchanges));
         
         string IMigrationMetadata.Id
         {
-            get { return "202403080506173_Carts"; }
+            get { return "202403082135161_userchanges"; }
         }
         
         string IMigrationMetadata.Source

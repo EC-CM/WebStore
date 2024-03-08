@@ -104,7 +104,7 @@
         </div>
 
         <!-- Group B: Logo and Search -->
-        <div class="ng-centre"> <!-- NOTE: Maybe stack logo on top of search? -->
+        <div class="ng-centre">
 
             <!-- Group B1: Logo -->
             <a class="navbar-logo" href="@Url.Action("Index", "Home")">
@@ -116,7 +116,7 @@
             <div class="ng-search">
                 <form class="d-flex mb-3" role="search" action="@Url.Action("Index", "Products")" method="get">
                     <input type="search" name="searchPhrase" id="navbarSearch" class="form-control me-2" placeholder="Search" aria-label="Search">
-                    <button type="submit" class="btn btn-outline-success"><span class="bi-search"></span></button>
+                    <button type="submit" class="btn btn-outline-success"><span class="bi-search"/></button>
                 </form>
             </div>
 
@@ -163,7 +163,7 @@
                     <li><a class="dropdown-item" href="@Url.Action("Cart", "UserCarts", new {userID = 1})">View Cart</a></li>
                     <li><a class="dropdown-item" href="@Url.Action("SavedList", "Users", new {userID = 1})">Your Favourites</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#" onclick="alert('Logging you out...')">Logout</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("LogOutUser", "UserLogins", new {userID = 1})">Logout</a></li>
                 </ul>
             </div>
         </div>

@@ -14,6 +14,7 @@
     using System.Diagnostics;
     using System.Web.Globalization;
     using System.Data.SqlTypes;
+    using PasswordHasher = BCrypt.Net.BCrypt;
 
     internal sealed class Configuration : DbMigrationsConfiguration<WebStore.Models.DatabaseContext>
     {
@@ -50,9 +51,8 @@
 
             context.Users.AddOrUpdate(
                 u => u.Username,
-                new User { Username = "Admin", EmailAddress = "admin@techstore.com", PasswordHash = "", Forename = "Administrator", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Admin.jpg"), Role = User.UserRole.Admin },
-                new User { Username = "Guest", EmailAddress = "guest@techstore.com", PasswordHash = "", Forename = "Guest", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Guest.jpg"), Role = User.UserRole.Guest }//,
-                //new User { Username = "BenjaminButton", EmailAddress = "benjamin.button@techstore.com", PasswordHash = "", Forename = "Benjamin", Surname = "Button", ProfilePictureID = GetImageIDFromName(context, "TechStoreLogo.png"), Role = "User" }
+                new User { Username = "Admin", EmailAddress = "admin@techstore.com", PasswordHash = PasswordHasher.HashPassword("2032-WebDevelopment"), Forename = "Administrator", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Admin.jpg"), Role = User.UserRole.Admin },
+                new User { Username = "User", EmailAddress = "user@techstore.com", PasswordHash = PasswordHasher.HashPassword("P@55word"), Forename = "User", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Guest.jpg"), Role = User.UserRole.User }                                                                                                                                                                                                                      
                 );
             context.SaveChanges();
             Console.WriteLine("[#] Users updated.");
@@ -73,8 +73,8 @@
 
             context.Products.AddOrUpdate(
                 p => p.Name,
-                new Product { Name = "SONY BRAVIA XR-55A95LU 55\" Smart 4K Ultra HD HDR OLED TV", Description = "", Price = 2499.00M, DefaultImageID = GetImageIDFromName(context, "Sony_Bravia_XR-55A95LU-01.jpg"), CategoryID = 1 },
-                new Product { Name = "SONY BRAVIA XR-55A80LU 55\" Smart 4K Ultra HD HDR OLED TV", Description = "", Price = 1599.00M, DefaultImageID = GetImageIDFromName(context, "Sony_Bravia_XR55A80LU-01.jpg"), CategoryID = 1 },
+                new Product { Name = "SONY BRAVIA XR-55A95LU 55\" Smart 4K Ultra HD HDR OLED TV", Description = "Our flagship OLED TV powered by Cognitive Processor XR™ delivers our widest colour and definitive contrast. Cinematic sound comes directly from the screen.\n\n4K QD-OLED TV with Cognitive Processor XR™, XR Triluminos Max™, Acoustic Surface Audio+™, BRAVIA CAM™ and Muti-View.", Price = 2499.00M, DefaultImageID = GetImageIDFromName(context, "Sony_Bravia_XR-55A95LU-01.jpg"), CategoryID = 1 },
+                new Product { Name = "SONY BRAVIA XR-55A80LU 55\" Smart 4K Ultra HD HDR OLED TV", Description = "Our Pure Black OLED TV powered by Cognitive Processor XR™ delivers remarkable contrast. Sound comes directly from the screen.\n\n4K OLED TV with Cognitive Processor XR™, Acoustic Surface Audio+™, Game Menu and Eco Dashboard.", Price = 1599.00M, DefaultImageID = GetImageIDFromName(context, "Sony_Bravia_XR55A80LU-01.jpg"), CategoryID = 1 },
                 new Product { Name = "Samsung S90C 55\" 4K OLED HDR Smart TV (2023)", Description = "", Price = 1129.00M, DefaultImageID = GetImageIDFromName(context, "Samsung_S90C-01.png"), CategoryID = 1 },
                 new Product { Name = "LG OLED evo C3 55\" 4K OLED HDR Smart TV (OLED55C34LA)", Description = "", Price = 1069.00M, DefaultImageID = GetImageIDFromName(context, "LG_OLED55C3-01.jpg"), CategoryID = 1 },
                 new Product { Name = "LG OLED evo G3 55\" 4K OLED HDR Smart TV (OLED55G36LA)", Description = "", Price = 1399.00M, DefaultImageID = GetImageIDFromName(context, "LG-OLED55G36LA-01.jpg"), CategoryID = 1 },
@@ -85,13 +85,13 @@
                 new Product { Name = "LG UltraGear 21:9 UW-QHD 160Hz Nano IPS 37.5\" Curved Gaming Monitor (38GN950)", Description = "", Price = 899.98M, DefaultImageID = GetImageIDFromName(context, "LG_UltraGear_38GN950-01.jpg"), CategoryID = 2 },
                 new Product { Name = "Samsung Odyssey Neo G9 49\" DQHD 32:9 Quantum Mini-LED Gaming Monitor", Description = "", Price = 1350.00M, DefaultImageID = GetImageIDFromName(context, "Samsung_Odyssey_Neo_G9-01.jpg"), CategoryID = 2 },
                 new Product { Name = "Samsung Odyssey OLED G9 49\" 240Hz 32:9 Smart Gaming Monitor", Description = "", Price = 1399.00M, DefaultImageID = GetImageIDFromName(context, "Samsung_Odyssey_OLED_G9-01.png"), CategoryID = 2 },
-                new Product { Name = "Sony Xperia 1 V", Description = "", Price = 1249.00M, DefaultImageID = GetImageIDFromName(context, "Sony_Xperia_1_V-01.jpg"), CategoryID = 3 },
-                new Product { Name = "Sony Xperia 5 V", Description = "", Price = 849.00M, DefaultImageID = GetImageIDFromName(context, "Sony_Xperia_5_V-01.jpg"), CategoryID = 3 },
+                new Product { Name = "Sony Xperia 1 V", Description = "Next-gen sensor. Next-gen imaging.\n\nExmor T for mobile sensor*1, S-Cinetone for mobile, 6.5\" 21:9 4K HDR OLED 120Hz Refresh rate display*10, 4K HDR 120fps video recording*3 and Real-time Eye AF & tracking on all lenses*4 *5.*1: New image sensor on 24mm lens. Full-frame camera image quality in terms of noise control and dynamic range for still images in illuminance environments of LV2 (Light Value) or less. (Comparison of hand-held Auto JPG shooting conditions with full-frame interchangeable lens camera \"Alpha 7 III\" paired with G lens \"FE 24-105 mm F4 G OSS\".)*3: Video recording restrictions may apply.*4: All rear camera lenses. *5: Accuracy of the feature may vary according to environmental circumstances and settings. Some performance restrictions may apply.*10: Display refresh rate may vary according to settings, contents and applications used.", Price = 1249.00M, DefaultImageID = GetImageIDFromName(context, "Sony_Xperia_1_V-01.jpg"), CategoryID = 3 },
+                new Product { Name = "Sony Xperia 5 V", Description = "Designed to fit into your life as you live it, this sleek and stylish phone will open up a whole new world of possibilities. An easy-to-use camera for any situation. Edit and create videos with ease. Music, videos or gaming—the Xperia 5 V will make everything more exciting, with a battery that can last until the next day*2. *2: The results from tests conducted by Sony under the following conditions: daily usage of 360 minutes for internet browsing, video playback, gaming, and other functions, with 1080 minutes of standby time, based on a median Xperia's user battery usage profile. The actual battery performance may vary depending on your usage and environment.", Price = 849.00M, DefaultImageID = GetImageIDFromName(context, "Sony_Xperia_5_V-01.jpg"), CategoryID = 3 },
                 new Product { Name = "ROG Phone 7 Ultimate", Description = "", Price = 1199.99M, DefaultImageID = GetImageIDFromName(context, "Asus_ROG_Phone_7_Ultimate-01.jpg"), CategoryID = 3 },
                 new Product { Name = "Samsung S4 Ultra 512GB", Description = "", Price = 1349.00M, DefaultImageID = GetImageIDFromName(context, "Samsung_Galaxy_S24_Ultra-01.jpg"), CategoryID = 3 },
                 new Product { Name = "Google Pixel 8 Pro", Description = "", Price = 999.00M, DefaultImageID = GetImageIDFromName(context, "Google_Pixel_8_Pro-01.png"), CategoryID = 3 },
-                new Product { Name = "Sony WH-1000XM5 Wireless Noise Cancelling Headphones", Description = "", Price = 299.00M, DefaultImageID = GetImageIDFromName(context, "Sony_WH-1000XM5-01.jpg"), CategoryID = 4 },
-                new Product { Name = "Sony WH-1000XM4 Wireless Noise Cancelling Headphones", Description = "", Price = 249.00M, DefaultImageID = GetImageIDFromName(context, "Sony_WH-1000XM4-01.jpg"), CategoryID = 4 },
+                new Product { Name = "Sony WH-1000XM5 Wireless Noise Cancelling Headphones", Description = "Our best ever noise cancelling headphones, designed for authentic perfection.\n\nHeadband style wireless headphones with Industry-leading noise cancelling, exceptional sound quality, superior noise-free calls and ultra comfortable design.", Price = 299.00M, DefaultImageID = GetImageIDFromName(context, "Sony_WH-1000XM5-01.jpg"), CategoryID = 4 },
+                new Product { Name = "Sony WH-1000XM4 Wireless Noise Cancelling Headphones", Description = "The smarter way to enjoy advanced noise cancelling and premium sound.\n\nHeadband style High-Resolution Audio headphones with advanced noise cancellation, Adaptive Sound Control, and Speak-to-Chat mode.", Price = 249.00M, DefaultImageID = GetImageIDFromName(context, "Sony_WH-1000XM4-01.jpg"), CategoryID = 4 },
                 new Product { Name = "Sennheiser MOMENTUM 4 Wireless Headphones", Description = "", Price = 249.99M, DefaultImageID = GetImageIDFromName(context, "Sennheiser_MOMENTUM_4-01.jpg"), CategoryID = 4 },
                 new Product { Name = "Bose QuietComfort Ultra Wireless Noise Cancelling Headphones", Description = "", Price = 449.00M, DefaultImageID = GetImageIDFromName(context, "Bose_Quietcomfort_Ultra-Headphones-01.png"), CategoryID = 4 }
             );
@@ -158,8 +158,14 @@
             Console.WriteLine("[#] ProductImages updated.");
 
 
-
-
+            /*
+            context.UserLoginSessions.AddOrUpdate(
+                c => c.UserLoginSessionID,
+                new UserLoginSession { UserID = 2, Active = true }
+            );
+            context.SaveChanges();
+            Console.WriteLine("[#] User login sessions updated.");
+            */
 
 
 
