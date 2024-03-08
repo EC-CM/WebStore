@@ -32,6 +32,7 @@
         padding: 0;
     }
 
+
     .card-text h5 {
         font-size: .875rem;
         font-weight: 500;
@@ -46,6 +47,8 @@
     .bi-heart {
         color: black;
         text-decoration: none !important;
+        background-color: transparent;
+        border: none;
         /* <i class="bi bi-heartbreak-fill"></i> */
     }
 
@@ -53,6 +56,8 @@
         .bi-heart-fill {
             color: red;
             text-decoration: none !important;
+            background-color: transparent;
+            border: none;
         }
 
     .add-to-cart {
@@ -78,36 +83,62 @@
             @foreach (WebStore.Models.Product product in Model.Products)
             {
                 <div class="col">
-                    <div class="card mb-3 position-relative h-100">
+                    <div class="card-container d-flex flex-column h-100 mb-auto">
 
-                        <div style="height: 300px; background-color: white; position: relative;">
+                        <span style="color:darkgrey;">Added: @(Model.UserListItems.FirstOrDefault(uli => uli.ProductID == product.ProductID)?.Timestamp)</span>
 
-                            <!-- Product image -->
-                            <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
-                                <img src="@Url.Action("GetImage", "Images", new { id = product.DefaultImageID, height = 300, width = 300 })" class="card-img-top" alt="[Product Image]" style="width: 100%; height: 100%; object-fit: cover;" />
-                            </a>
+                        <div class="card position-relative h-100">
 
-                            <!-- Favourite button -->
-                            <a class="bi-heart-fill position-absolute top-0 end-0 m-3" onclick="RemoveFavourite(event, @product.ProductID, '@product.Name')"></a>
+                            <!-- DEBUG CODE FOUND ONLINE -->
+                            <!--<pre>@Newtonsoft.Json.JsonConvert.SerializeObject(product, Newtonsoft.Json.Formatting.Indented)</pre>-->
+
+                            <div style="height: 300px; background-color: white; position: relative;">
+
+                                <!-- Product image -->
+                                <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
+                                    <img src="@Url.Action("GetImage", "Images", new { id = product.DefaultImageID, height = 300, width = 300 })" class="card-img-top" alt="[Product Image]" style="width: 100%; height: 100%; object-fit: cover;" />
+                                </a>
+
+                                <!-- Favourite button -->
+                                <button class="bi-heart-fill position-absolute top-0 end-0 m-3" onclick="RemoveFavourite(event, 1, @product.ProductID, '@product.Name')"></button>
+
+                            </div>
+
+                            <div class="card-body">
+
+                                <!-- Product title -->
+                                <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
+                                    <h5 class="card-title">@Html.DisplayFor(p => product.Name)</h5>
+                                </a>
+
+                                <!-- Product category -->
+                                <p class="card-text">Category: <a href="@Url.Action("Index", "Products", new { category = product.CategoryID } )">@Html.DisplayFor(p => product.Category.Name)</a></p>
+
+                            </div>
+
+                            <!-- Price & Cart button -->
+                            <div class="card-footer d-flex align-items-center justify-content-between" style="margin: 10px 0;">
+                                <p class="card-text" style="font-weight: bold; font-size: 1.4em; margin-bottom: 0; color: white;">£@Html.DisplayFor(p => product.Price)</p>
+                                <button class="btn btn-success add-to-cart">Add to Cart <i class="bi bi-cart2"></i></button>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        @{
+                            var productNotes = (Model.UserListItems.FirstOrDefault(uli => uli.ProductID == product.ProductID)?.Notes);
+                        }
 
-                            <!-- Product title -->
-                            <a href="@Url.Action("Details", "Products", new {productID = product.ProductID})" class="text-link">
-                                <h5 class="card-title">@Html.DisplayFor(p => product.Name)</h5>
-                            </a>
-
-                            <!-- Product category -->
-                            <p class="card-text">Category: <a href="@Url.Action("Index", "Products", new { category = product.CategoryID } )">@Html.DisplayFor(p => product.Category.Name)</a></p>
-
-                        </div>
-
-                        <!-- Price & Cart button -->
-                        <div class="card-footer d-flex align-items-center justify-content-between" style="margin: 10px 0;">
-                            <p class="card-text" style="font-weight: bold; font-size: 1.4em; margin-bottom: 0; color: white;">£@Html.DisplayFor(p => product.Price)</p>
-                            <button class="btn btn-success add-to-cart">Add to Cart <i class="bi bi-cart2"></i></button>
+                        <div class="notes-container">
+                            <button onclick="UpdateNotes(this, @product.ProductID, '@productNotes' );" style="background-color: transparent; border: none;">
+                                @if (productNotes != "")
+                                {
+                                    <span style="color:darkgrey;"><i>"@productNotes"</i></span>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-pencil-square" style="color:darkgrey;">&nbsp;&nbsp;Add a note...</i>
+                                }
+                            </button>
                         </div>
 
                     </div>
@@ -120,7 +151,7 @@
 
 <script>
 
-    function RemoveFavourite(event, productID, productName)
+    function RemoveFavourite(event, userID, productID, productName)
     {
 
         var confirmed = window.confirm(`Remove ${productName} from favourites?`);
@@ -136,7 +167,7 @@
                 method: "Post",
                 data:
                 {
-                    userID: 1,
+                    userID: userID,
                     productID: productID
                 },
                 success: function (data) {
@@ -151,7 +182,94 @@
 
     }
 
+    function UpdateNotes(buttonElement, productID, productNotes)
+    {
+        var notesContainer = buttonElement.parentNode;
+
+        notesContainer.innerHTML = "";
+
+        var space = String.fromCharCode(160, 160);
+
+        var pencilIcon = document.createElement('i');
+        pencilIcon.className = 'bi bi-pencil-square';
+        pencilIcon.style.color = 'darkgrey';
+
+        var inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.value = productNotes;
+        inputField.id = 'notesInput';
+
+        var submitButton = document.createElement('button');
+        submitButton.className = 'bi bi-check-square';
+        submitButton.style.cssText = 'color: green; background-color: transparent; border: 0;';
+        submitButton.addEventListener('click', function () {
+            UpdateFavouriteItemNotes(1, productID, inputField.value);
+            CloseNoteEdit(notesContainer, productID, inputField.value);
+        });
+
+        var closeButton = document.createElement('button');
+        closeButton.className = 'bi bi-x-square';
+        closeButton.style.cssText = 'color: red; background-color: transparent; border: 0 ;';
+        closeButton.addEventListener('click', function () {
+            CloseNoteEdit(notesContainer, productID, productNotes);
+        });
+
+        notesContainer.append(pencilIcon, space, inputField, space, submitButton, space, closeButton)
+
+    }
+
+    function CloseNoteEdit(notesContainer, productID, productNotes) {
+
+        var buttonElement = document.createElement('button');
+        buttonElement.setAttribute('onclick', `UpdateNotes(this, ${productID}, '${productNotes}');`);
+        buttonElement.style.backgroundColor = 'transparent';
+        buttonElement.style.border = 'none';
+
+        var notesSpan = document.createElement('span');
+        notesSpan.style.color = 'darkgrey';
+        notesSpan.style.fontStyle = 'italics';
+
+        if (productNotes !== "")
+        {
+            notesSpan.textContent = `"${productNotes}"`;
+
+
+        }
+        else
+        {
+            notesSpan.className = 'bi bi-pencil-square';
+            notesSpan.innerHTML = '&nbsp;&nbsp;Add a note...';
+        }
+
+        buttonElement.appendChild(notesSpan);
+        notesContainer.innerHTML = '';
+        notesContainer.appendChild(buttonElement);
+    }
+
+
+    function UpdateFavouriteItemNotes(userID, productID, productNotes)
+    {
+
+        $.ajax(
+        {
+            url: "@Url.Action("UpdateFavouriteNotes", "Users")",
+            method: "Post",
+            data:
+            {
+                userID: userID,
+                productID: productID,
+                productNotes: productNotes
+            },
+            success: function (data)
+            {
+                console.log(`Updated notes for favourited product ${productID}.`)
+            },
+            error: function (error) { console.log(`Error updating notes for Product ${productID} in User ${userID}\'s favourites.\n\n${JSON.stringify(error)}`); }
+        });
+
+    }
+
+
+
 
 </script>
-
-

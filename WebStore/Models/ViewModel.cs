@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace WebStore.Models
 {
@@ -25,6 +26,7 @@ namespace WebStore.Models
         public List<Product> Products { get; set; }
         public List<Image> Images { get; set; }
         public List<ProductImage> ProductImages { get; set; }
+        public List<UserListItem> UserListItems { get; set; }
 
         public Category Category { get; set; }
         public User User { get; set; }
@@ -46,6 +48,7 @@ namespace WebStore.Models
             List<Product> products = null,
             List<Image> images = null,
             List<ProductImage> productImages = null,
+            List<UserListItem> userListItems = null,
 
             Category category = null,
             User user = null,
@@ -63,6 +66,7 @@ namespace WebStore.Models
             Products = products ?? new List<Product>();
             Images = images ?? new List<Image>();
             ProductImages = productImages ?? new List<ProductImage>();
+            UserListItems = userListItems ?? new List<UserListItem>();
 
             Category = category ?? new Category();
             User = user ?? new User();

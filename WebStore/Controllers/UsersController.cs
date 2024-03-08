@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using WebStore.Models;
@@ -47,7 +48,13 @@ namespace WebStore.Controllers
                     .Where(product => _db.UserListItems
                         .Any(listItem => listItem.UserID == userID // Only UserListItems matching User
                             && listItem.ProductID == product.ProductID)) // Only Products matching the products in that User's list
+                    .Include(p => p.Category) // Ensure Category navigation property is loaded
+                    .ToList(),
+                
+                UserListItems = _db.UserListItems
+                    .Where(u =>  u.UserID == userID)
                     .ToList()
+                    
             };
 
             return View("SavedList", models);
@@ -99,6 +106,17 @@ namespace WebStore.Controllers
         public bool IsFavourited(int userID, int productID)
         {
             return _db.UserListItems.Any(item => item.UserID == userID && item.ProductID == productID);
+        }
+
+        public void UpdateFavouriteNotes(int userID, int productID, string productNotes)
+        {
+            UserListItem userListItem = _db.UserListItems.FirstOrDefault(item => item.UserID == userID && item.ProductID == productID);
+            if (userListItem != null)
+            {
+                userListItem.Notes = productNotes;
+                _db.SaveChanges();
+            }
+
         }
 
         // Manage function name not matching view name (when running via view in IIS Express).

@@ -122,35 +122,6 @@ namespace WebStore.Controllers
             return vm;
         }
 
-
-        public ActionResult SearchInNewPage(string searchPhrase)
-        // NOTE: Use prepared statements
-        {
-            ViewModel products = new ViewModel { };
-            
-            if (searchPhrase.StartsWith("\"") && searchPhrase.EndsWith("\""))
-            // Exact match: "searchPhrase"
-            {
-                // Strip enclosing quotes and enclose in spaces to allow for detecting word boundaries
-                searchPhrase = $" {searchPhrase.Substring(1, searchPhrase.Length - 2)} ";
-
-                // 
-                products.Products = (from p in _db.Products
-                           where (" " + p.Name + " ").Contains(searchPhrase)
-                           select p).ToList();
-
-            }
-            else
-            // General match
-            {
-                products.Products = (from p in _db.Products
-                          where p.Name.Contains(searchPhrase)
-                          select p).ToList();
-            }
-
-            return View("Products", products);
-        }
-
         public ViewModel FilterByCategory(ViewModel vm, int categoryID)
         {
             vm.Products = vm.Products
