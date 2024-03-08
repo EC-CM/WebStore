@@ -57,6 +57,19 @@
             context.SaveChanges();
             Console.WriteLine("[#] Users updated.");
 
+            // Prevent DataReader conflicts
+            List<User> users = context.Users.ToList();
+            foreach (User user in users)
+            {
+                context.UserCarts.AddOrUpdate(
+                    c => c.UserCartID,
+                    new UserCart { UserID = user.UserID, Active = true }
+                );
+            }
+            context.SaveChanges();
+            Console.WriteLine("[#] User carts updated.");
+
+
 
             context.Products.AddOrUpdate(
                 p => p.Name,

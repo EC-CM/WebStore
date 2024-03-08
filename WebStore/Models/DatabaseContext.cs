@@ -18,6 +18,8 @@ namespace WebStore.Models
         public DbSet<ProductImage> ProductImages { get; set; }
 
         public DbSet<UserListItem> UserListItems { get; set; }
+        public DbSet<UserCart> UserCarts { get; set; }
+        public DbSet<CartProduct> CartProducts { get; set; }
 
 
         // Constructor to specify connection string

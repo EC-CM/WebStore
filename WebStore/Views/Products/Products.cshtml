@@ -121,16 +121,7 @@
                             </a>
 
                             <!-- Favourite button -->
-                            <!-- NOTE: A check for existing favourited items will need to be done -->
-
-                            @if (true)
-                            {
-                                <button data-product-id="@product.ProductID" class="bi-heart position-absolute top-0 end-0 m-3" onclick="ToggleFavourite(event, @product.ProductID, '@product.Name')"></button>
-                            }
-                            else
-                            {
-                                <button data-product-id="@product.ProductID" class="bi-heart-fill position-absolute top-0 end-0 m-3" onclick="ToggleFavourite(event, @product.ProductID, '@product.Name')"></button>
-                            }
+                            <button data-product-id="@product.ProductID" class="bi-heart position-absolute top-0 end-0 m-3" onclick="ToggleFavourite(event, @product.ProductID, '@product.Name')"></button>
 
 
                         </div>
@@ -150,7 +141,7 @@
                         <!-- Price & Cart button -->
                         <div class="card-footer d-flex align-items-center justify-content-between" style="margin: 10px 0;">
                             <p class="card-text" style="font-weight: bold; font-size: 1.4em; margin-bottom: 0; color: white;">£@Html.DisplayFor(p => product.Price)</p>
-                            <button class="btn btn-success add-to-cart">Add to Cart <i class="bi bi-cart2"></i></button>
+                            <button data-cart-user-id="1" data-cart-product-id="@product.ProductID" class="btn btn-success add-to-cart" onclick="ToggleInCart(event, 1, @product.ProductID)"><span class="button-text">Add to Cart</span> <i class="bi bi-cart2"></i></button> <!-- View "In Cart" links to cart page -->
                         </div>
 
                     </div>
@@ -220,11 +211,11 @@
             method: "Post",
             data:
             {
-                userID: 1,
+                userID: userID,
                 productID: productID
             },
-            success: function (data) 
-            {         
+            success: function (data)
+            {
                 if (data === "True")
                 {
                     console.log(`Product ${productID} was found in User ${userID}\'s favourites - updating button.`);
@@ -234,7 +225,136 @@
                 }
 
             },
-                error: function (error) { console.log(`Error checking if Product ${productID} is in User ${userID}\'s favourites.\n\n${JSON.stringify(error)}`); }
+            error: function (error) { console.log(`Error checking if Product ${productID} is in User ${userID}\'s favourites.\n\n${JSON.stringify(error)}`); }
+        });
+
+    }
+
+
+
+    function ToggleInCart(event, userID, productID)
+    {
+        var buttonElement = $(event.currentTarget);
+
+        var buttonText = buttonElement.children('.button-text');
+
+        if (buttonElement.hasClass('in-cart'))
+        // REMOVE FROM CART
+        {
+            var cartQuantity = 0;
+
+            $.ajax(
+            {
+                url: "@Url.Action("IsInCart", "UserCarts")",
+                method: "Post",
+                data:
+                {
+                    userID: userID,
+                    productID: productID
+                },
+                success: function (data)
+                {
+                    cartQuantity = parseInt(data);
+                },
+                error: function (error) { console.log(`Error checking if Product ${productID} is in User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
+
+                });
+
+
+            if (cartQuantity > 1)
+            {
+                $.ajax(
+                {
+                    url: "@Url.Action("EditCartItem", "UserCarts")",
+                    method: "Post",
+                    data:
+                    {
+                        userID: userID,
+                        productID: productID,
+                        quantity: cartQuantity - 1
+                    },
+                    success: function (data)
+                    {},
+                    error: function (error) { console.log(`Error removing Product ${productID} from User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
+                });
+
+            }
+            else if (cartQuantity == 1)
+            {
+                $.ajax(
+                {
+                    url: "@Url.Action("RemoveFromCart", "UserCarts")",
+                    method: "Post",
+                    data:
+                    {
+                        userID: userID,
+                        productID: productID
+                    },
+                    success: function (data)
+                    {
+                        // Change button to match cart status
+                        buttonText.text("In Cart");
+                        buttonText.removeClass('in-cart');
+                    },
+                    error: function (error) { console.log(`Error removing Product ${productID} from User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
+                });
+            }
+            else
+            {
+                // Change button to match cart status (Unlikely to happen?)
+                buttonText.text("In Cart");
+                buttonText.removeClass('in-cart');
+            }
+
+        }
+        else
+        // ADD TO CART
+        {
+            $.ajax({
+                url: "@Url.Action("AddToCart", "UserCarts")",
+                method: "Post",
+                data:
+                {
+                    userID: userID,
+                    productID: productID,
+                    quantity: 1
+                },
+                success: function (data) {
+                    // Change button to match cart status
+                    buttonText.text("In Cart");
+                    buttonText.addClass('in-cart');
+                },
+                error: function (error) { console.log(`Error adding Product ${productID} to User ${userID}\'s cart.\n\n${JSON.stringify(error) }`); }
+            });
+        }
+    }
+
+    function CheckIfInCart(userID, productID, buttonElement)
+    {
+        var buttonText = buttonElement.children('.button-text');
+
+        $.ajax(
+        {
+            url: "@Url.Action("IsInCart", "UserCarts")",
+            method: "Post",
+            data:
+            {
+                userID: userID,
+                productID: productID
+            },
+            success: function (data)
+            {
+                if (data >= 1)
+                {
+                    console.log(`Product ${productID} was found in User ${userID}\'s cart - updating button.`);
+                    // Change button to match cart status
+                    buttonText.text("In Cart");
+                    buttonText.addClass('in-cart');
+                }
+
+            },
+            error: function (error) { console.log(`Error checking if Product ${productID} is in User ${userID}\'s cart.\n\n${JSON.stringify(error)}`); }
+
         });
 
     }
@@ -243,14 +363,28 @@
     $(document).ready
     (   function ()
     {
-            // For each button element with a data-product-id attribute
+            // For each button element with a favourite data attribute
             $('[data-product-id]').each
             (   function ()
-            {
+                {
                     // Extract value of product-id
                     var productID = $(this).data('product-id');
                     // Check if the corresponding product is favourited and toggle the button appearance
-                    CheckIfFavourited(1, productID, $(this))    
+                    CheckIfFavourited(1, productID, $(this))
+
+
+                }
+            )
+
+            // For each button element with cart data attributes
+            $('[data-cart-product-id]').each
+            (   function ()
+                {
+                    // Extract value of product-id
+                    var userID = $(this).data('cart-user-id');
+                    var productID = $(this).data('cart-product-id');
+                    // Check if the corresponding product is favourited and toggle the button appearance
+                    CheckIfInCart(userID, productID, $(this))
 
 
                 }

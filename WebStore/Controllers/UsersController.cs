@@ -38,6 +38,7 @@ namespace WebStore.Controllers
             return View("Details", user);
         }
 
+        // Should be in own controller for UserListItem
         public ActionResult SavedList (int userID) 
         {   // Consistency with UserListItem, SavedList, "Favourites"?
             // First two are related, and this approach allows for future name changes ("Your Saved Items", "Your Favourites", "Your Bookmarks"...etc)
