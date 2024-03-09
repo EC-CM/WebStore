@@ -139,13 +139,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202403082044308_InitialState.cs" />
-    <Compile Include="Migrations\202403082044308_InitialState.Designer.cs">
-      <DependentUpon>202403082044308_InitialState.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202403082135161_userchanges.cs" />
-    <Compile Include="Migrations\202403082135161_userchanges.Designer.cs">
-      <DependentUpon>202403082135161_userchanges.cs</DependentUpon>
+    <Compile Include="Migrations\202403082212012_InitialState.cs" />
+    <Compile Include="Migrations\202403082212012_InitialState.Designer.cs">
+      <DependentUpon>202403082212012_InitialState.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartProduct.cs" />
@@ -269,8 +265,9 @@
     <Content Include="Images\Promo_Samsung_Banner.png" />
     <Content Include="Images\Promo_Sony_Banner.png" />
     <Content Include="Images\TechStoreLogo.png" />
+    <Content Include="Images\Users\0\User_Guest.png" />
     <Content Include="Images\Users\1\User_Admin.jpg" />
-    <Content Include="Images\Users\2\User_Guest.jpg" />
+    <Content Include="Images\Users\2\User_User.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -317,7 +314,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Backup\" />
-    <Folder Include="Images\Users\3\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Image\" />
   </ItemGroup>
   <ItemGroup>
@@ -348,11 +345,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202403082044308_InitialState.resx">
-      <DependentUpon>202403082044308_InitialState.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202403082135161_userchanges.resx">
-      <DependentUpon>202403082135161_userchanges.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202403082212012_InitialState.resx">
+      <DependentUpon>202403082212012_InitialState.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

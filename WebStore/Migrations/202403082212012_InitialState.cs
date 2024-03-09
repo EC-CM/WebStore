@@ -41,7 +41,7 @@
                         UserID = c.Int(nullable: false, identity: true),
                         Username = c.String(nullable: false, maxLength: 50),
                         EmailAddress = c.String(),
-                        PasswordHash = c.String(),
+                        PasswordHash = c.String(nullable: false),
                         Forename = c.String(),
                         Surname = c.String(),
                         PhoneNumber = c.String(),

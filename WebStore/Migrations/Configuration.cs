@@ -52,7 +52,7 @@
             context.Users.AddOrUpdate(
                 u => u.Username,
                 new User { Username = "Admin", EmailAddress = "admin@techstore.com", PasswordHash = PasswordHasher.HashPassword("2032-WebDevelopment"), Forename = "Administrator", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Admin.jpg"), Role = User.UserRole.Admin },
-                new User { Username = "User", EmailAddress = "user@techstore.com", PasswordHash = PasswordHasher.HashPassword("P@55word"), Forename = "User", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_Guest.jpg"), Role = User.UserRole.User }                                                                                                                                                                                                                      
+                new User { Username = "User", EmailAddress = "user@techstore.com", PasswordHash = PasswordHasher.HashPassword("P@55word"), Forename = "User", Surname = "", ProfilePictureID = GetImageIDFromName(context, "User_User.png"), Role = User.UserRole.User }                                                                                                                                                                                                                      
                 );
             context.SaveChanges();
             Console.WriteLine("[#] Users updated.");

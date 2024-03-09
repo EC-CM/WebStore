@@ -120,21 +120,11 @@ namespace WebStore.Controllers
 
         }
 
-
         public bool IsAdmin(int userID)
         {
             return _db.Users.Where(u => u.UserID == userID).Any(u => u.Role == Models.User.UserRole.Admin);
         }
 
-        public ActionResult Login()
-        {
-            return View("Login");
-        }
-
-        public ActionResult Register()
-        {
-            return View("Register");
-        }
 
         // Manage function name not matching view name (when running via view in IIS Express).
         public ActionResult Users() { return RedirectToAction("Index"); }

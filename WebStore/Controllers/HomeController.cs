@@ -78,5 +78,26 @@ namespace WebStore.Controllers
             return View("ASPNET_Guide");
         }
 
+
+        public User CurrentUser()
+        {
+            // Throw exception if multiple logged in users are found
+            User currentUser = _db.Users.SingleOrDefault(user => _db.UserLoginSessions
+                .Any(login => login.UserID == user.UserID
+                     && login.Active == true));
+
+            if (currentUser == null)
+            // No user logged in - return defaults
+            { return new User(); }
+            else
+            // Return logged in user
+            { return currentUser; }
+
+        }
+
+        public int CurrentUserID()
+        {
+            return CurrentUser().UserID;
+        }
     }
 }
