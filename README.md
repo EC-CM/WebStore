@@ -26,15 +26,15 @@ There are more features on this site than below, but these are some key ones.
 
 ## Product List
 ![Website-ProductListings](https://github.com/EC-CM/WebStore/assets/114674192/8e1359b3-e510-40c1-8063-9e247c4322af)
-  (1) The result of a user search for Sony.
+  **(1)** The result of a user search for Sony.
   
-  (2) Various sort options, which can be applied on top of any search filters.
+  **(2)** Various sort options, which can be applied on top of any search filters.
    
-  (3) A favourites button, which also adds this product to the user’s favourites list in the database. The favourite status of each product persists across the site, even upon a refresh.
+  **(3)** A favourites button, which also adds this product to the user’s favourites list in the database. The favourite status of each product persists across the site, even upon a refresh.
    
-  (4) The option to add an item to the user’s cart, interacting with the database. This also updates to show if an item is already in the cart upon page load.
+  **(4)** The option to add an item to the user’s cart, interacting with the database. This also updates to show if an item is already in the cart upon page load.
    
-  (5) A link to show all products from the same category as that product.
+  **(5)** A link to show all products from the same category as that product.
 
 &nbsp;
 
